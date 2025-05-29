@@ -1,0 +1,104 @@
+{
+    "layer": "top",
+    "position": "top", 
+    "height": 40, 
+    "spacing": 6,
+    "modules-left": ["hyprland/workspaces", "tray", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["network", "bluetooth", "memory", "cpu", "pulseaudio", "battery"],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "sort-by-numer": true,
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+    },
+    "hyprland/window": {
+        "format": "\uf061 {}",
+        "separate-outputs": true
+    },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+	    "format": " {:%H:%M}",
+	    "format-alt": " {:%A, %B %d, %Y}",
+	    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+	    "calendar": {
+	    	"mode"          : "month",
+	    	"mode-mon-col"  : 3,
+	    	"weeks-pos"     : "right",
+	    	"on-scroll"     : 1,
+	    	"on-click-right": "mode",
+	    	"format": {
+	    		"months":     "<span color='#ffead3'><b>{}</b></span>",
+	    		"days":       "<span color='#ecc6d9'><b>{}</b></span>",
+	    		"weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+	    		"weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+	    		"today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+	    	}
+	    },
+	    "actions": {
+	    	"on-click-right": "mode",
+	    	"on-click-forward": "tz_up",
+	    	"on-click-backward": "tz_down",
+	    	"on-scroll-up": "shift_up",
+	    	"on-scroll-down": "shift_down"
+	    }
+    },
+    "cpu": {
+        "interval": 1,
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "interval": 1,
+        "format": " {used}G",
+        "tooltip": false
+    },
+    "network": {
+        "interval": 1,
+        "format-wifi": "  {essid} {signalStrength}%",
+        "format-ethernet": "\uf796 {bandwidthUpBits} {bandwidthDownBits}",
+        "format-linked": "{ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "tooltip-format": "{ifname} {ipaddr}/{cidr} via {gwaddr}",
+        "format-alt": " {bandwidthUpBits}  {bandwidthDownBits}"
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-icons": {
+            "headphone": "",
+            // "hands-free": "",
+            "headset": "󱡏",
+            // "phone": "",
+            // "portable": "",
+            // "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "battery": {
+    	"interal": 60,
+    	"states": {
+    		"warning": 30,
+    		"critical": 15
+    	},
+    	"format": "{icon} {capacity}%",
+    	"format-icons": ["", "", "", "", ""],
+    	"max-length": 25,
+	    "on-click": "wlogout"
+    },
+    "bluetooth": {
+    	"format": "󰂯 {status}",
+        "format-connected": "󰂱 {num_connections} {status}",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    }
+}
