@@ -1,0 +1,9 @@
+[Unit]
+Description=Waybar Theme Switcher
+
+[Service]
+Type=simple
+ExecStart=/home/yhu/.config/waybar/switch.sh
+
+[Install]
+WantedBy=default.target

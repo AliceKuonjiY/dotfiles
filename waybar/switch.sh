@@ -12,10 +12,6 @@ else
     ln -sf ~/.config/waybar/theme-night.css ~/.config/waybar/style.css
 fi
 
-if [ $HOUR -eq 18 ] || [ $HOUR -eq 6 ]; then
-    sync
-    # 重启 waybar 使更改生效
-    killall waybar
-    pkill waybar
-    waybar > /dev/null 2>&1 &
-fi
+# 重启 waybar 使更改生效
+killall waybar
+waybar & disown

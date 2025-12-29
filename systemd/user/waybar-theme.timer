@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Waybar theme switcher hourly
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=waybar-theme.service
+
+[Install]
+WantedBy=timers.target

@@ -26,7 +26,7 @@ vim.g.lazyvim_cmp = "auto"
 
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
-vim.g.ai_cmp = false
+vim.g.ai_cmp = true
 
 -- LazyVim root dir detection
 -- Each entry can be:
@@ -116,7 +116,7 @@ opt.wrap = false -- Disable line wrap
 
 if vim.fn.has("nvim-0.10") == 1 then
     opt.smoothscroll = false
-    opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+    opt.foldexpr = "v:lua.require'lazyvim.util'.treesitter.foldexpr()"
     opt.foldmethod = "expr"
     opt.foldtext = ""
 else

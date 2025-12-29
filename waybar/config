@@ -3,15 +3,26 @@
     "position": "top", 
     "height": 40, 
     "spacing": 6,
-    "modules-left": ["hyprland/workspaces", "tray", "hyprland/window"],
+    "modules-left": ["hyprland/workspaces", "niri/workspaces", "tray", "hyprland/window", "niri/window"],
     "modules-center": ["clock"],
     "modules-right": ["network", "bluetooth", "memory", "cpu", "pulseaudio", "battery"],
+    "niri/workspaces": {
+        "format": "{icon}",
+        "sort-by-numer": true,
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
     "hyprland/workspaces": {
         "format": "{icon}",
         "sort-by-numer": true,
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+    "niri/window": {
+        "format": "\uf061 {}",
+        "separate-outputs": true
     },
     "hyprland/window": {
         "format": "\uf061 {}",

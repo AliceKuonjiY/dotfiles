@@ -123,6 +123,6 @@ window#waybar.hidden {
 #window {
     font-family: 'JetBrainsMono NF Bold';
     font-weight: 400;
-    background-color: #111111;
+    background-color: #000000;
     color: #cbecff;
 }
