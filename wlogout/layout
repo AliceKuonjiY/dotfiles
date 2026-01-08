@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "swaylock",
+    "action" : "swaylock --image ~/Pictures/WallPapers/jianbian_zise.png",
     "text" : "Lock",
     "keybind" : "l"
 }

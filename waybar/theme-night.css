@@ -1,8 +1,8 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: "JetBrainsMono NF Medium";
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 16px;
 
     border-radius: 14px;
     text-shadow: none;
@@ -82,37 +82,37 @@ window#waybar.hidden {
 }
 
 #clock {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #eefff1;
 }
 
 #cpu {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #fe968b;
 }
 
 #memory {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #ffeaaa;
 }
 
 #pulseaudio {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #b0f5e5;
 }
 
 #network {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #97bbff;
 }
 
 #battery {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #92e7b1;
 }
 
 #bluetooth {
-    background-color: #000000;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #87ddff;
 }
 
@@ -122,7 +122,7 @@ window#waybar.hidden {
 
 #window {
     font-family: 'JetBrainsMono NF Bold';
-    font-weight: 400;
-    background-color: #000000;
+    font-weight: 500;
+    background-color: rgba(16, 20, 24, 0.5);
     color: #cbecff;
 }
