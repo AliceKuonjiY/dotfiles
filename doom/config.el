@@ -1,5 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; modify /usr/share/X11/xkb/keycodes/evdev to change CapsLock to Ctrl
+
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 (setq url-proxy-services
@@ -8,24 +10,44 @@
         ("https" . "127.0.0.1:7897")))
 
 ;;; Custom functions
-(defun next-5-lines ()
+(defun yhu/next-5-lines ()
   "Move the cursor down by 5 lines."
   (interactive)
   (dotimes (_ 5) (next-line)))
 
-(defun previous-5-lines ()
+(defun yhu/previous-5-lines ()
   "Move the cursor up by 5 lines."
   (interactive)
   (dotimes (_ 5) (previous-line)))
 
-(defun read-lines-to-list (file-path)
+(defun yhu/read-lines-to-list (file-path)
   "Read the contents of FILE-PATH and return a list of lines."
   (with-temp-buffer
     (insert-file-contents file-path)
     (split-string (buffer-string) "\n" t)))
 
-(defun create-anime-banner ()
-  (let* ((banner (read-lines-to-list "~/.config/doom/ascii-pic/emacs.txt"))
+(defun yhu/shrink-window-horizontally (n)
+  "Shrink the window horizontally by N columns."
+  (interactive "nNumber of columns to shrink: ")
+  (shrink-window-horizontally (n) t))
+
+(defun yhu/enlarge-window-horizontally (n)
+  "Enlarge the window horizontally by N columns."
+  (interactive "nNumber of columns to enlarge: ")
+  (enlarge-window-horizontally n t))
+
+(defun yhu/shrink-window (n)
+  "Shrink the window vertically by N lines."
+  (interactive "nNumber of lines to shrink: ")
+  (shrink-window n))
+
+(defun yhu/enlarge-window (n)
+  "Enlarge the window vertically by N lines."
+  (interactive "nNumber of lines to enlarge: ")
+  (enlarge-window n))
+
+(defun yhu/create-anime-banner ()
+  (let* ((banner (yhu/read-lines-to-list "~/.config/doom/ascii-pic/emacs.txt"))
          (longest-line (apply #'max (mapcar #'length banner))))
     (put-text-property
      (point)
@@ -36,24 +58,28 @@
                "\n"))
      'face 'doom-dashboard-banner)))
 
-(defun ryanmarcus/backward-kill-word ()
+(defun yhu/backward-kill-word ()
   "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
   (interactive)
-  (if (looking-back "[^a-zA-Z0-9]")
+  (if (looking-back "[^a-zA-Z0-9\n]")
       ;; delete horizontal space before us and then check to see if we
       ;; are looking at a newline
       (progn (delete-horizontal-space 't)
              (while (looking-back "[^a-zA-Z0-9\n]")
                (backward-delete-char 1)))
     ;; otherwise, just do the normal kill word.
-    (backward-kill-word 1)))
+    (if (looking-back "[a-zA-Z0-9]")
+        (backward-kill-word 1)
+      (backward-delete-char 1))))
 
 
 ;;; General settings
+;; (setq debug-on-error t)
+(whole-line-or-region-global-mode)
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
 (setq-default c-basic-offset 4)
-(setq-default confirm-kill-emacs #'y-or-n-p)
+(setq-default confirm-kill-emacs nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (push '(undecorated . t) default-frame-alist)
@@ -63,20 +89,14 @@
 
 
 ;;; Custom keybindings
-(global-set-key (kbd "C-s") 'save-buffer)
-(global-set-key (kbd "C-x C-s") 'isearch-forward)
-(global-set-key (kbd "C-x f") 'find-file)
-(global-set-key (kbd "C-x C-f") 'set-fill-column)
+(global-set-key (kbd "C-M-=") 'eval-print-last-sexp)
 (global-set-key (kbd "C-z") 'doom/escape)
-(global-set-key (kbd "C-<") 'previous-5-lines)
-(global-set-key (kbd "C->") 'next-5-lines)
+(global-set-key (kbd "C-<") 'yhu/previous-5-lines)
+(global-set-key (kbd "C->") 'yhu/next-5-lines)
 (global-set-key (kbd "C-.") 'er/expand-region)
 (global-set-key (kbd "C-,") 'er/contract-region)
-(global-set-key (kbd "C-x w <right>") 'windmove-right)
-(global-set-key (kbd "C-x w <left>") 'windmove-left)
-(global-set-key (kbd "C-x w <up>") 'windmove-up)
-(global-set-key (kbd "C-x w <down>") 'windmove-down)
-(global-set-key (kbd "C-<backspace>") 'ryanmarcus/backward-kill-word)
+(global-set-key (kbd "C-<backspace>") 'yhu/backward-kill-word)
+(global-set-key (kbd "C-c t t") 'whitespace-mode)
 
 
 ;;; Define hydra for text scaling
@@ -84,13 +104,61 @@
   "scale text"
   ("=" text-scale-increase "in")
   ("-" text-scale-decrease "out")
+  ("0" (text-scale-set 0) "reset")
+  ("q" nil "finished" :exit t))
+
+(defhydra hydra-window-resize (global-map "C-x w r")
+  "resize window"
+  ("<left>" (yhu/shrink-window-horizontally 5) "shrink left")
+  ("<right>" enlarge-window-horizontally "enlarge right")
+  ("<down>" shrink-window "shrink down")
+  ("<up>" enlarge-window "enlarge up")
+  ("q" nil "finished" :exit t))
+
+(defhydra hydra-window-move (global-map "C-x w m")
+  "move window"
+  ("<left>" windmove-left "move left")
+  ("<right>" windmove-right "move right")
+  ("<up>" windmove-up "move up")
+  ("<down>" windmove-down "move down")
+  ("q" nil "finished" :exit t))
+
+(defhydra hydra-switch-buffer (global-map "C-c b")
+  "switch buffer"
+  ("n" next-buffer "next")
+  ("p" previous-buffer "previous")
+  ("q" nil "finished" :exit t))
+
+(defhydra hydra-move-cursor (global-map "C-c C-m")
+  "move cursor"
+  ("h" backward-char "left")
+  ("l" forward-char "right")
+  ("k" previous-line "up")
+  ("j" next-line "down")
+  ("H" beginning-of-line "beginning")
+  ("L" end-of-line "end")
+  ("n" forward-word "next word")
+  ("p" backward-word "previous word")
   ("q" nil "finished" :exit t))
 
 
 ;;; Plugin configurations
-(setq +doom-dashboard-ascii-banner-fn #'create-anime-banner)
+(setq +doom-dashboard-ascii-banner-fn #'yhu/create-anime-banner)
+
+(use-package! smooth-scrolling
+  :defer t
+  :config
+  (smooth-scrolling-mode 1)
+  (setq smooth-scroll-margin 5)
+  (setq scroll-conservatively 101))
+
+(use-package! treemacs
+  :defer t
+  :config
+  (setq treemacs-width 40))
 
 (use-package! eglot
+  :defer t
   :config
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider
                                             :documentOnTypeFormattingProvider
@@ -101,17 +169,19 @@
   (add-to-list 'eglot-server-programs
                '(c-mode . ("ccls")))
   (add-to-list 'eglot-server-programs
-               '(c++-mode . ("ccls"))))
+               '(c++-mode . ("ccls")))
+  (add-to-list 'eglot-server-programs
+               '(python-mode . ("pyright-langserver" "--stdio"))))
 
 (use-package! company
   :defer t
   :config
   (setq company-idle-delay 0.5)
-  (setq company-minimum-prefix-length 3)
+  (setq company-minimum-prefix-length 1)
   (setq company-inhibit-inside-symbols t))
 
 (use-package! gt
-  :ensure t
+  :defer t
   :config
   (setq gt-default-translator (gt-translator :engines (gt-youdao-dict-engine)))
   (setq gt-langs '(en zh))
@@ -132,9 +202,20 @@
            :image-converter ("dvisvgm --page=1- --optimize --clipjoin --relative --no-fonts %f -o %O"))))
   ;; Ensure proper temp directory
   (setq org-preview-latex-image-directory "~/.config/emacs/ltximg/")
-  (setq org-latex-create-formula-image-program 'dvisvgm))
+  (setq org-latex-create-formula-image-program 'dvisvgm)
+  (setq org-support-shift-select t)
+  (setq org-latex-pdf-process '("xelatex -shell-escape %f"
+                                "xelatex -shell-escape %f"
+                                "xelatex -shell-escape %f")))
+
+
+(use-package! latex
+  :defer t
+  :config
+  (setq latex-run-command "xelatex"))
 
 (use-package! gptel
+  :defer t
   :config
   (setq gptel-model 'gpt-4o
         gptel-backend (gptel-make-gh-copilot "Copilot"))
@@ -142,7 +223,8 @@
   (add-hook 'gptel-post-response-functions 'gptel-end-of-response))
 
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
+  :defer t
+  ;; :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
@@ -159,13 +241,31 @@
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
 (use-package! rime
+  :defer t
   :custom
   (default-input-method "rime"))
 
 (use-package! avy
+  :defer t
   :bind
-  ("M-g M-g" . avy-goto-line)
-  ("M-g M-w" . avy-goto-word-1))
+  ("M-g g" . avy-goto-line)
+  ("M-g r" . avy-copy-region)
+  ("M-g l" . avy-copy-line)
+  ("M-g w" . avy-goto-word-1))
+
+(use-package! counsel
+  :defer t
+  :config
+  (counsel-mode 1)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-c f z") 'counsel-fzf))
+
+(after! (prog-mode demap)
+  (face-spec-set 'demap-minimap-font-face
+                 `((t :family "minimap"
+                      :height 20)))
+  (setq demap-minimap-window-width 25))
+
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -185,12 +285,11 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "Iosevka" :weight 'medium :size 14.0))
-  (defun my-cjk-font()
-    (dolist (charset '(kana han cjk-misc symbol bopomofo))
-      (set-fontset-font t charset (font-spec :family "Sarasa Mono SC"))))
-  (add-hook 'after-setting-font-hook #'my-cjk-font)
-;; |“中”、“言”测试|
-;; ||||||||||||||||
+(defun my-cjk-font()
+  (dolist (charset '(kana han cjk-misc symbol bopomofo))
+    (set-fontset-font t charset (font-spec :family "Sarasa Mono SC"))))
+(add-hook 'after-setting-font-hook #'my-cjk-font)
+;;
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -200,17 +299,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-palenight)
-;; (setq doom-theme 'doom-nord)
-(setq doom-theme 'doom-ayu-mirage)
-;; (setq doom-theme 'doom-ayu-dark)
-;; (setq doom-theme 'doom-city-lights)
-;; (setq doom-theme 'doom-moonlight)
-;; (setq doom-theme 'doom-gruvbox)
-;; (setq doom-theme 'doom-monokai-pro)
-;; (setq doom-theme 'doom-dracula)
-;; (setq doom-theme 'gruber-darker)
+;;(setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-palenight)
+;;(setq doom-theme 'doom-nord)
+;;(setq doom-theme 'doom-ayu-mirage)
+;;(setq doom-theme 'doom-ayu-dark)
+;;(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-moonlight)
+;;(setq doom-theme 'doom-gruvbox)
+;;(setq doom-theme 'doom-monokai-pro)
+;;(setq doom-theme 'doom-dracula)
+;;(setq doom-theme 'gruber-darker)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
