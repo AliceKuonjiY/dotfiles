@@ -141,9 +141,37 @@
   ("p" backward-word "previous word")
   ("q" nil "finished" :exit t))
 
+(defhydra hydra-multiple-cursors (global-map "C-c m c")
+  "multiple cursors"
+  ("l" mc/edit-lines "edit line" :exit t)
+  ("a" mc/mark-all-like-this "mark all" :exit t)
+  ("n" mc/mark-next-like-this "mark next")
+  ("N" mc/skip-to-next-like-this "skip next")
+  ("M-n" mc/unmark-next-like-this "unmark next")
+  ("p" mc/mark-previous-like-this "mark previous")
+  ("P" mc/skip-to-previous-like-this "skip previous")
+  ("M-p" mc/unmark-previous-like-this "unmark previous")
+  ("|" mc/vertical-align "align with spaces")
+  ("s" mc/mark-all-in-region-regexp "mark all in region" :exit t)
+  ("0" mc/insert-numbers "insert numbers" :exit t)
+  ("A" mc/insert-letters "insert letters" :exit t)
+  ("<mouse-1>" mc/add-cursor-on-click "add cursor")
+  ;; Help with click recognition in this hydra
+  ("<down-mouse-1>" ignore)
+  ("<drag-mouse-1>" ignore)
+  ("q" nil "quit"))
 
 ;;; Plugin configurations
 (setq +doom-dashboard-ascii-banner-fn #'yhu/create-anime-banner)
+
+(use-package! ivy
+  :defer t
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq search-default-mode #'char-fold-to-regexp)
+  (setq ivy-count-format "(%d/%d) ")
+  :bind
+  (("C-s" . 'swiper)))
 
 (use-package! smooth-scrolling
   :defer t
@@ -208,7 +236,6 @@
                                 "xelatex -shell-escape %f"
                                 "xelatex -shell-escape %f")))
 
-
 (use-package! latex
   :defer t
   :config
@@ -248,6 +275,7 @@
 (use-package! avy
   :defer t
   :bind
+  ("M-g c" . avy-goto-char-timer)
   ("M-g g" . avy-goto-line)
   ("M-g r" . avy-copy-region)
   ("M-g l" . avy-copy-line)
