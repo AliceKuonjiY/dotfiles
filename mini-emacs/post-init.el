@@ -671,6 +671,11 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :init
   (unicode-fonts-setup))
 
+(use-package swiper
+  :ensure t
+  :bind
+  (("C-s" . swiper)))
+
 ;;; Load local file
 
 (minimal-emacs-load-user-init "my-functions.el")

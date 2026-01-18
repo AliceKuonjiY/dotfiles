@@ -4,6 +4,7 @@
 (global-set-key (kbd "C-<backspace>") 'yhu/backward-kill-word)
 (global-set-key (kbd "M-<up>") 'yhu/move-line-up)
 (global-set-key (kbd "M-<down>") 'yhu/move-line-down)
+(global-set-key (kbd "C-c w") 'wdired-change-to-wdired-mode)
 
 (defhydra hydra-text-scale (global-map "C-c t s")
   "scale text"
