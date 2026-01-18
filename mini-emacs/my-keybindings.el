@@ -8,9 +8,9 @@
 
 (defhydra hydra-text-scale (global-map "C-c t s")
   "scale text"
-  ("=" text-scale-increase "in")
-  ("-" text-scale-decrease "out")
-  ("0" (text-scale-set 0) "reset")
+  ("=" text-scale-increase "increase")
+  ("-" text-scale-decrease "decrease")
+  ("0" (text-scale-set 0) "reset" :exit t)
   ("q" nil "finished" :exit t))
 
 (defhydra hydra-window-move (global-map "C-x w m")

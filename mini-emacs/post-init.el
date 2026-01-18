@@ -8,7 +8,7 @@
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   :config
   ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
+  ;; (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (nerd-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
@@ -113,20 +113,6 @@
   (after-init . save-place-mode)
   :custom
   (save-place-limit 400))
-
-;; Cape, or Completion At Point Extensions, extends the capabilities of
-;; in-buffer completion. It integrates with Corfu or the default completion UI,
-;; by providing additional backends through completion-at-point-functions.
-(use-package cape
-  :ensure t
-  :commands (cape-dabbrev cape-file cape-elisp-block)
-  :bind ("C-c p" . cape-prefix-map)
-  :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block))
 
 ;; Vertico provides a vertical completion interface, making it easier to
 ;; navigate and select from completion candidates (e.g., when `M-x` is pressed).
@@ -511,7 +497,9 @@
   )
 
 (use-package eglot
-  :defer t
+  :ensure t
+  :init
+  (add-hook 'c-mode-hook #'eglot-ensure)
   :config
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider
                                             :documentOnTypeFormattingProvider
@@ -676,8 +664,18 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :bind
   (("C-s" . swiper)))
 
+(use-package mwim
+  :ensure t
+  :bind
+  ("C-a" . mwim-beginning-of-code-or-line)
+  ("C-e" . mwim-end-of-code-or-line))
+
+(use-package ace-window
+  :ensure t
+  :bind (("C-x o" . 'ace-window)))
+
 ;;; Load local file
 
-(minimal-emacs-load-user-init "my-functions.el")
+(minimal-emacs-load-user-init "my-code.el")
 (minimal-emacs-load-user-init "my-keybindings.el")
 (minimal-emacs-load-user-init "my-config.el")

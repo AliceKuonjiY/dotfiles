@@ -19,7 +19,8 @@
                (backward-delete-char 1)))
     ;; otherwise, just do the normal kill word.
     (if (looking-back "[a-zA-Z0-9]")
-        (backward-kill-word 1)
+        (while (looking-back "[a-zA-Z0-9]")
+          (backward-delete-char 1))
       (backward-delete-char 1))))
 
 (defun yhu/move-line-up ()

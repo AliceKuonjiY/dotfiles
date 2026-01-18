@@ -8,10 +8,10 @@
    '(auctex auto-package-update buffer-terminator cape cdlatex company
             compile-angel copilot corfu doom-themes embark-consult good-scroll
             gruber-darker-theme helpful magit marginalia markdown-mode
-            multiple-cursors nerd-icons orderless outline-indent
+            multiple-cursors mwim nerd-icons orderless outline-indent
             persist-text-scale rime smart-mode-line stripspace swiper treemacs
-            undo-fu undo-fu-session unicode-fonts use-package-hydra vertico
-            vim-tab-bar))
+            treesit-auto undo-fu undo-fu-session unicode-fonts use-package-hydra
+            vertico vim-tab-bar))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main"))))
 (custom-set-faces
