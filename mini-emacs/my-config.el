@@ -67,3 +67,8 @@
 
 ;; Auto insert matching brackets and quotes
 (electric-pair-mode t)
+
+;; Set indent
+(setq indent-tabs-mode nil)
+(setq tab-width 4)
+(setq-default c-basic-offset 4)

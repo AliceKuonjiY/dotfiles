@@ -50,6 +50,60 @@
   (auto-revert-avoid-polling nil)
   (auto-revert-verbose t))
 
+;; Recentf is an Emacs package that maintains a list of recently
+;; accessed files, making it easier to reopen files you have worked on
+;; recently.
+(use-package recentf
+  :ensure nil
+  :commands (recentf-mode recentf-cleanup)
+  :hook
+  (after-init . recentf-mode)
+
+  :custom
+  (recentf-auto-cleanup (if (daemonp) 300 'never))
+  (recentf-exclude
+   (list "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$" "\\.bz2$"
+         "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zip$"
+         "\\.7z$" "\\.rar$"
+         "COMMIT_EDITMSG\\'"
+         "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+         "-autoloads\\.el$" "autoload\\.el$"))
+
+  :config
+  ;; A cleanup depth of -90 ensures that `recentf-cleanup' runs before
+  ;; `recentf-save-list', allowing stale entries to be removed before the list
+  ;; is saved by `recentf-save-list', which is automatically added to
+  ;; `kill-emacs-hook' by `recentf-mode'.
+  (add-hook 'kill-emacs-hook #'recentf-cleanup -90))
+
+;; savehist is an Emacs feature that preserves the minibuffer history between
+;; sessions. It saves the history of inputs in the minibuffer, such as commands,
+;; search strings, and other prompts, to a file. This allows users to retain
+;; their minibuffer history across Emacs restarts.
+(use-package savehist
+  :ensure nil
+  :commands (savehist-mode savehist-save)
+  :hook
+  (after-init . savehist-mode)
+  :custom
+  (savehist-autosave-interval 600)
+  (savehist-additional-variables
+   '(kill-ring                        ; clipboard
+     register-alist                   ; macros
+     mark-ring global-mark-ring       ; marks
+     search-ring regexp-search-ring)))
+
+;; save-place-mode enables Emacs to remember the last location within a file
+;; upon reopening. This feature is particularly beneficial for resuming work at
+;; the precise point where you previously left off.
+(use-package saveplace
+  :ensure nil
+  :commands (save-place-mode save-place-local-mode)
+  :hook
+  (after-init . save-place-mode)
+  :custom
+  (save-place-limit 400))
+
 ;; Smex is a M-x enhancement for Emacs. Built on top of Ido, it provides a convenient interface
 ;; to your recently and most frequently used commands. And to all the other commands, too.
 (use-package smex
@@ -207,6 +261,9 @@
   :ensure t
   :init
   (add-hook 'c-mode-hook #'eglot-ensure)
+  (add-hook 'c++-mode-hook #'eglot-ensure)
+  (add-hook 'python-mode-hook #'eglot-ensure)
+  (add-hook 'rust-mode-hook #'eglot-ensure)
   :config
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider
                                             :documentOnTypeFormattingProvider
@@ -215,11 +272,11 @@
                                             :codeActionProvider))
   (setq eglot-extend-to-xref t)
   (add-to-list 'eglot-server-programs
-               '(c-mode . ("ccls")))
+               '((c-mode c++-mode) . ("ccls")))
   (add-to-list 'eglot-server-programs
-               '(c++-mode . ("ccls")))
+               '(python-mode . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
-               '(python-mode . ("pyright-langserver" "--stdio"))))
+               '((rust-ts-mode rust-mode) . ("rust-analyzer"))))
 
 (use-package company
   :ensure t
@@ -327,17 +384,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 ;; It supports core Markdown syntax as well as extensions like GitHub Flavored
 ;; Markdown (GFM).
 (use-package markdown-mode
-  :defer t
-  :commands (gfm-mode
-             gfm-view-mode
-             markdown-mode
-             markdown-view-mode)
-  :mode (("\\.markdown\\'" . markdown-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("README\\.md\\'" . gfm-mode))
-  :bind
-  (:map markdown-mode-map
-        ("C-c C-e" . markdown-do)))
+  :defer t)
 
 (use-package auctex
   :ensure t
@@ -410,6 +457,16 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
         ;; If nil, the fzf buffer will appear at the top of the window
         fzf/position-bottom t
         fzf/window-height 15))
+
+(use-package rust-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
+
+(use-package whole-line-or-region
+  :ensure t
+  :init
+  (whole-line-or-region-global-mode))
 
 ;;; Load local file
 

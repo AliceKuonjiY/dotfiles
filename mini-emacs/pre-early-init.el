@@ -1,6 +1,6 @@
 ;;; pre-early-init.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
-;; (setq debug-on-error t)
+(setq debug-on-error t)
 
 ;;; Reducing clutter in ~/.emacs.d by redirecting files to ~/.emacs.d/var/
 (setq user-emacs-directory (expand-file-name "var/" minimal-emacs-user-directory))
