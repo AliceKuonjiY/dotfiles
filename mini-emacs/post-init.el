@@ -1,20 +1,8 @@
 ;;; post-init.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
-(use-package doom-themes
-  :ensure t
-  :custom
-  ;; Global settings (defaults)
-  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
-  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  :config
-  ;; Enable flashing mode-line on errors
-  ;; (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (nerd-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+;;themes
+(use-package doom-themes)
+(use-package catppuccin-theme)
 
 ;; Native compilation enhances Emacs performance by converting Elisp code into
 ;; native machine code, resulting in faster execution and improved
@@ -62,204 +50,16 @@
   (auto-revert-avoid-polling nil)
   (auto-revert-verbose t))
 
-;; Recentf is an Emacs package that maintains a list of recently
-;; accessed files, making it easier to reopen files you have worked on
-;; recently.
-(use-package recentf
-  :ensure nil
-  :commands (recentf-mode recentf-cleanup)
-  :hook
-  (after-init . recentf-mode)
-  :custom
-  (recentf-auto-cleanup (if (daemonp) 300 'never))
-  (recentf-exclude
-   (list "\\.tar$" "\\.tbz2$" "\\.tbz$" "\\.tgz$" "\\.bz2$"
-         "\\.bz$" "\\.gz$" "\\.gzip$" "\\.xz$" "\\.zip$"
-         "\\.7z$" "\\.rar$"
-         "COMMIT_EDITMSG\\'"
-         "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-         "-autoloads\\.el$" "autoload\\.el$"))
-  :config
-  ;; A cleanup depth of -90 ensures that `recentf-cleanup' runs before
-  ;; `recentf-save-list', allowing stale entries to be removed before the list
-  ;; is saved by `recentf-save-list', which is automatically added to
-  ;; `kill-emacs-hook' by `recentf-mode'.
-  (add-hook 'kill-emacs-hook #'recentf-cleanup -90))
-
-;; savehist is an Emacs feature that preserves the minibuffer history between
-;; sessions. It saves the history of inputs in the minibuffer, such as commands,
-;; search strings, and other prompts, to a file. This allows users to retain
-;; their minibuffer history across Emacs restarts.
-(use-package savehist
-  :ensure nil
-  :commands (savehist-mode savehist-save)
-  :hook
-  (after-init . savehist-mode)
-  :custom
-  (savehist-autosave-interval 600)
-  (savehist-additional-variables
-   '(kill-ring                        ; clipboard
-     register-alist                   ; macros
-     mark-ring global-mark-ring       ; marks
-     search-ring regexp-search-ring)))
-
-;; save-place-mode enables Emacs to remember the last location within a file
-;; upon reopening. This feature is particularly beneficial for resuming work at
-;; the precise point where you previously left off.
-(use-package saveplace
-  :ensure nil
-  :commands (save-place-mode save-place-local-mode)
-  :hook
-  (after-init . save-place-mode)
-  :custom
-  (save-place-limit 400))
-
-;; Vertico provides a vertical completion interface, making it easier to
-;; navigate and select from completion candidates (e.g., when `M-x` is pressed).
-(use-package vertico
-  ;; (Note: It is recommended to also enable the savehist package.)
+;; Smex is a M-x enhancement for Emacs. Built on top of Ido, it provides a convenient interface
+;; to your recently and most frequently used commands. And to all the other commands, too.
+(use-package smex
   :ensure t
-  :config
-  (vertico-mode))
-
-;; Vertico leverages Orderless' flexible matching capabilities, allowing users
-;; to input multiple patterns separated by spaces, which Orderless then
-;; matches in any order against the candidates.
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
-
-;; Marginalia allows Embark to offer you preconfigured actions in more contexts.
-;; In addition to that, Marginalia also enhances Vertico by adding rich
-;; annotations to the completion candidates displayed in Vertico's interface.
-(use-package marginalia
-  :ensure t
-  :commands (marginalia-mode marginalia-cycle)
-  :hook (after-init . marginalia-mode))
-
-;; Embark integrates with Consult and Vertico to provide context-sensitive
-;; actions and quick access to commands based on the current selection, further
-;; improving user efficiency and workflow within Emacs. Together, they create a
-;; cohesive and powerful environment for managing completions and interactions.
-(use-package embark
-  ;; Embark is an Emacs package that acts like a context menu, allowing
-  ;; users to perform context-sensitive actions on selected items
-  ;; directly from the completion interface.
-  :ensure t
-  :commands (embark-act
-             embark-dwim
-             embark-export
-             embark-collect
-             embark-bindings
-             embark-prefix-help-command)
+  :init
+  (smex-initialize)
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-  :init
-  (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-(use-package embark-consult
-  :ensure t
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
-;; Consult offers a suite of commands for efficient searching, previewing, and
-;; interacting with buffers, file contents, and more, improving various tasks.
-(use-package consult
-  :ensure t
-  :bind (;; C-c bindings in `mode-specific-map'
-         ("C-c M-x" . consult-mode-command)
-         ("C-c h" . consult-history)
-         ("C-c k" . consult-kmacro)
-         ("C-c m" . consult-man)
-         ("C-c i" . consult-info)
-         ([remap Info-search] . consult-info)
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x M-:" . consult-complex-command)
-         ("C-x b" . consult-buffer)
-         ("C-x 4 b" . consult-buffer-other-window)
-         ("C-x 5 b" . consult-buffer-other-frame)
-         ("C-x t b" . consult-buffer-other-tab)
-         ("C-x r b" . consult-bookmark)
-         ("C-x p b" . consult-project-buffer)
-         ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)
-         ("C-M-#" . consult-register)
-         ;; Other custom bindings
-         ("M-y" . consult-yank-pop)
-         ;; M-g bindings in `goto-map'
-         ("M-g e" . consult-compile-error)
-         ("M-g f" . consult-flymake)
-         ("M-g g" . consult-goto-line)
-         ("M-g M-g" . consult-goto-line)
-         ("M-g o" . consult-outline)
-         ("M-g m" . consult-mark)
-         ("M-g k" . consult-global-mark)
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-imenu-multi)
-         ;; M-s bindings in `search-map'
-         ("M-s d" . consult-find)
-         ("M-s c" . consult-locate)
-         ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrep)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ("M-s k" . consult-keep-lines)
-         ("M-s u" . consult-focus-lines)
-         ;; Isearch integration
-         ("M-s e" . consult-isearch-history)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)
-         ("M-s e" . consult-isearch-history)
-         ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-         ;; Minibuffer history
-         :map minibuffer-local-map
-         ("M-s" . consult-history)
-         ("M-r" . consult-history))
-  ;; Enable automatic preview at point in the *Completions* buffer.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
-  :init
-  ;; Optionally configure the register formatting. This improves the register
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
-  ;; Optionally tweak the register preview window.
-  (advice-add #'register-preview :override #'consult-register-window)
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  ;; Aggressive asynchronous that yield instantaneous results. (suitable for
-  ;; high-performance systems.) Note: Minad, the author of Consult, does not
-  ;; recommend aggressive values.
-  ;; Read: https://github.com/minad/consult/discussions/951
-  ;;
-  ;; However, the author of minimal-emacs.d uses these parameters to achieve
-  ;; immediate feedback from Consult.
-  ;; (setq consult-async-input-debounce 0.02
-  ;;       consult-async-input-throttle 0.05
-  ;;       consult-async-refresh-delay 0.02)
-  :config
-  (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any))
-  (setq consult-narrow-key "<"))
+  (("M-x" . smex)
+   ("M-X" . smex-major-mode-commands)
+   ("C-c C-c M-x" . execute-extended-command)))
 
 ;; The stripspace Emacs package provides stripspace-local-mode, a minor mode
 ;; that automatically removes trailing whitespace and blank lines at the end of
@@ -293,10 +93,9 @@
              undo-fu-only-redo
              undo-fu-only-redo-all
              undo-fu-disable-checkpoint)
-  :config
-  (global-unset-key (kbd "C-z"))
-  (global-set-key (kbd "C-z") 'undo-fu-only-undo)
-  (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
+  :bind
+  (("C-/" . undo-fu-only-undo)
+   ("C-?" . undo-fu-only-redo)))
 
 ;; The undo-fu-session package complements undo-fu by enabling the saving
 ;; and restoration of undo history across Emacs sessions, even after restarting.
@@ -309,7 +108,10 @@
 (use-package vim-tab-bar
   :ensure t
   :commands vim-tab-bar-mode
-  :hook (after-init . vim-tab-bar-mode))
+  :hook (after-init . vim-tab-bar-mode)
+  :bind
+  (("C-x <up>" . tab-previous)
+   ("C-x <down>" . tab-next)))
 
 ;; This automates the process of updating installed packages
 (use-package auto-package-update
@@ -355,101 +157,6 @@
   (buffer-terminator-interval (* 10 60)) ; 10 minutes
   :config
   (buffer-terminator-mode 1))
-
-;; A file and project explorer for Emacs that displays a structured tree
-;; layout, similar to file browsers in modern IDEs. It functions as a sidebar
-;; in the left window, providing a persistent view of files, projects, and
-;; other elements.
-(use-package treemacs
-  :ensure t
-  :commands (treemacs
-             treemacs-select-window
-             treemacs-delete-other-windows
-             treemacs-select-directory
-             treemacs-bookmark
-             treemacs-find-file
-             treemacs-find-tag)
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag))
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
-        treemacs-deferred-git-apply-delay        0.5
-        treemacs-directory-name-transformer      #'identity
-        treemacs-display-in-side-window          t
-        treemacs-eldoc-display                   'simple
-        treemacs-file-event-delay                2000
-        treemacs-file-extension-regex            treemacs-last-period-regex-value
-        treemacs-file-follow-delay               0.2
-        treemacs-file-name-transformer           #'identity
-        treemacs-follow-after-init               t
-        treemacs-expand-after-init               t
-        treemacs-find-workspace-method           'find-for-file-or-pick-first
-        treemacs-git-command-pipe                ""
-        treemacs-goto-tag-strategy               'refetch-index
-        treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-        treemacs-hide-dot-git-directory          t
-        treemacs-indentation                     2
-        treemacs-indentation-string              " "
-        treemacs-is-never-other-window           nil
-        treemacs-max-git-entries                 5000
-        treemacs-missing-project-action          'ask
-        treemacs-move-files-by-mouse-dragging    t
-        treemacs-move-forward-on-expand          nil
-        treemacs-no-png-images                   nil
-        treemacs-no-delete-other-windows         t
-        treemacs-project-follow-cleanup          nil
-        treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-        treemacs-position                        'left
-        treemacs-read-string-input               'from-child-frame
-        treemacs-recenter-distance               0.1
-        treemacs-recenter-after-file-follow      nil
-        treemacs-recenter-after-tag-follow       nil
-        treemacs-recenter-after-project-jump     'always
-        treemacs-recenter-after-project-expand   'on-distance
-        treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-        treemacs-project-follow-into-home        nil
-        treemacs-show-cursor                     nil
-        treemacs-show-hidden-files               t
-        treemacs-silent-filewatch                nil
-        treemacs-silent-refresh                  nil
-        treemacs-sorting                         'alphabetic-asc
-        treemacs-select-when-already-in-treemacs 'move-back
-        treemacs-space-between-root-nodes        t
-        treemacs-tag-follow-cleanup              t
-        treemacs-tag-follow-delay                1.5
-        treemacs-text-scale                      nil
-        treemacs-user-mode-line-format           nil
-        treemacs-user-header-line-format         nil
-        treemacs-wide-toggle-width               70
-        treemacs-width                           35
-        treemacs-width-increment                 1
-        treemacs-width-is-initially-locked       t
-        treemacs-workspace-switch-cleanup        nil)
-  ;; The default width and height of the icons is 22 pixels. If you are
-  ;; using a Hi-DPI display, uncomment this to double the icon size.
-  ;; (treemacs-resize-icons 44)
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode 'always)
-  ;;(when treemacs-python-executable
-  ;;  (treemacs-git-commit-diff-mode t))
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null treemacs-python-executable)))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple)))
-  (treemacs-hide-gitignored-files-mode nil))
 
 (use-package avy
   :ensure t
@@ -526,6 +233,7 @@
   (setq company-transformers '(company-sort-by-occurrence)))
 
 (use-package copilot
+  :defer t
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest
             :branch "main")
@@ -582,7 +290,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 ;; scheduling, deadlines, time tracking, and exporting to multiple formats
 ;; including HTML, LaTeX, PDF, and Markdown.
 (use-package org
-  :ensure t
+  :defer t
   :commands (org-mode org-version)
   :mode
   ("\\.org\\'" . org-mode)
@@ -619,6 +327,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 ;; It supports core Markdown syntax as well as extensions like GitHub Flavored
 ;; Markdown (GFM).
 (use-package markdown-mode
+  :defer t
   :commands (gfm-mode
              gfm-view-mode
              markdown-mode
@@ -659,11 +368,6 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :init
   (unicode-fonts-setup))
 
-(use-package swiper
-  :ensure t
-  :bind
-  (("C-s" . swiper)))
-
 (use-package mwim
   :ensure t
   :bind
@@ -673,6 +377,39 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 (use-package ace-window
   :ensure t
   :bind (("C-x o" . 'ace-window)))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package gt
+  :defer t
+  :config
+  (setq gt-default-translator (gt-translator :engines (gt-youdao-dict-engine)))
+  (setq gt-langs '(en zh))
+  (setq gt-taker-text 'word)
+  (setq gt-taker-pick 'paragraph)
+  (setq gt-taker-prompt nil))
+
+(use-package expand-region
+  :bind
+  (("C-." . er/expand-region)
+   ("C-," . er/contract-region)))
+
+(use-package fzf
+  :bind
+    ;; Don't forget to set keybinds!
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        ;; command used for `fzf-grep-*` functions
+        ;; example usage for ripgrep:
+        ;; fzf/grep-command "rg --no-heading -nH"
+        fzf/grep-command "grep -nrH"
+        ;; If nil, the fzf buffer will appear at the top of the window
+        fzf/position-bottom t
+        fzf/window-height 15))
 
 ;;; Load local file
 

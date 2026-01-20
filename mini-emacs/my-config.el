@@ -1,23 +1,18 @@
-;; Enable `auto-save-mode' to prevent data loss. Use `recover-file' or
-;; `recover-session' to restore unsaved changes.
-;; (setq auto-save-default t)
-;; (setq auto-save-interval 300)
-;; (setq auto-save-timeout 30)
-
-;; When auto-save-visited-mode is enabled, Emacs will auto-save file-visiting
-;; buffers after a certain amount of idle time if the user forgets to save it
-;; with save-buffer or C-x s for example.
-;;
-;; This is different from auto-save-mode: auto-save-mode periodically saves
-;; all modified buffers, creating backup files, including those not associated
-;; with a file, while auto-save-visited-mode only saves file-visiting buffers
-;; after a period of idle time, directly saving to the file itself without
-;; creating backup files.
-(setq auto-save-visited-interval 5)   ; Save after 5 seconds if inactivity
-(auto-save-visited-mode 1)
+;; Load local themes
+(add-to-list 'custom-theme-load-path
+             "~/.emacs.d/themes")
 
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
+(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
 (load-theme 'doom-moonlight t)  ; Load the built-in theme
+;;(load-theme 'gruber-darker t)
+
+(ido-mode 1)
+(ido-everywhere 1)
+(setq ido-enable-flex-matching t)
+(setq ido-use-filename-at-point 'guess)
+(setq ido-create-new-buffer 'always)
+(setq-default confirm-nonexistent-file-or-buffer nil)
 
 ;; Set font
 (set-face-attribute 'default nil

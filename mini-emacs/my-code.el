@@ -1,13 +1,3 @@
-(defun yhu/next-5-lines ()
-  "Move the cursor down by 5 lines."
-  (interactive)
-  (dotimes (_ 5) (next-line)))
-
-(defun yhu/previous-5-lines ()
-  "Move the cursor up by 5 lines."
-  (interactive)
-  (dotimes (_ 5) (previous-line)))
-
 (defun yhu/backward-kill-word ()
   "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
   (interactive)
@@ -39,3 +29,10 @@
     (transpose-lines 1)
     (forward-line -1)
     (forward-char col)))
+
+(defun yhu/mark-line ()
+  "Mark the current line."
+  (interactive)
+  (move-beginning-of-line nil)
+  (set-mark-command nil)
+  (move-end-of-line nil))
