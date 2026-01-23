@@ -1,3 +1,5 @@
+;;; my-code.el --- My code -*- lexical-binding:t -*-
+
 (defun yhu/backward-kill-word ()
   "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
   (interactive)
@@ -36,3 +38,5 @@
   (move-beginning-of-line nil)
   (set-mark-command nil)
   (move-end-of-line nil))
+
+;;; my-code.el ends here

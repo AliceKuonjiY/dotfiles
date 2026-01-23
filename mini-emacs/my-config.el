@@ -1,16 +1,15 @@
-;; Load local themes
-(add-to-list 'custom-theme-load-path
-             "~/.emacs.d/themes")
+;;; my-config.el --- My config -*- lexical-binding:t -*-
 
+;; theme
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
 (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
-(load-theme 'doom-moonlight t)  ; Load the built-in theme
-;;(load-theme 'gruber-darker t)
+;;(load-theme 'doom-moonlight t)  ; Load the built-in theme
+(load-theme 'gruber-darker t)
 
+;; Ido
 (ido-mode 1)
 (ido-everywhere 1)
 (setq ido-enable-flex-matching t)
-(setq ido-use-filename-at-point 'guess)
 (setq ido-create-new-buffer 'always)
 (setq-default confirm-nonexistent-file-or-buffer nil)
 
@@ -71,4 +70,11 @@
 ;; Set indent
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
-(setq-default c-basic-offset 4)
+(setq c-ts-mode-indent-offset 4)
+
+;; Treesit context
+(require 'treesit-context)
+(add-hook 'c-mode-hook 'treesit-context)
+(add-hook 'c-ts-mode-hook 'treesit-context)
+
+;;; my-config.el ends here

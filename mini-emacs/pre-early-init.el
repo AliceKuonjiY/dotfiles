@@ -6,6 +6,13 @@
 (setq user-emacs-directory (expand-file-name "var/" minimal-emacs-user-directory))
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 
+;; Load local themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+;; Load path
+(add-to-list 'load-path "~/.emacs.d/packages/posframe")
+(add-to-list 'load-path "~/.emacs.d/packages/treesit-context")
+
 ;; Increase gc-cons-threshold
 (setq minimal-emacs-gc-cons-threshold (* 256 1024 1024))
 

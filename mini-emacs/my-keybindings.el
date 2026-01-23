@@ -1,3 +1,5 @@
+;;; my-keybindings.el --- My keybindings -*- lexical-binding:t -*-
+
 (define-key key-translation-map (kbd "C-z") (kbd "C-g"))
 
 (global-set-key (kbd "C-M-=") 'eval-print-last-sexp)
@@ -18,3 +20,5 @@
   ("-" text-scale-decrease "decrease")
   ("0" (text-scale-set 0) "reset" :exit t)
   ("q" nil "finished" :exit t))
+
+;;; my-keybindings.el ends here

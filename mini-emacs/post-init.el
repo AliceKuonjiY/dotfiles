@@ -58,7 +58,6 @@
   :commands (recentf-mode recentf-cleanup)
   :hook
   (after-init . recentf-mode)
-
   :custom
   (recentf-auto-cleanup (if (daemonp) 300 'never))
   (recentf-exclude
@@ -68,7 +67,6 @@
          "COMMIT_EDITMSG\\'"
          "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
          "-autoloads\\.el$" "autoload\\.el$"))
-
   :config
   ;; A cleanup depth of -90 ensures that `recentf-cleanup' runs before
   ;; `recentf-save-list', allowing stale entries to be removed before the list
@@ -258,11 +256,13 @@
   )
 
 (use-package eglot
-  :ensure t
+  :defer t
   :init
   (add-hook 'c-mode-hook #'eglot-ensure)
+  (add-hook 'c-ts-mode-hook #'eglot-ensure)
   (add-hook 'c++-mode-hook #'eglot-ensure)
   (add-hook 'python-mode-hook #'eglot-ensure)
+  (add-hook 'python-ts-mode-hook #'eglot-ensure)
   (add-hook 'rust-mode-hook #'eglot-ensure)
   :config
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider
@@ -271,8 +271,9 @@
                                             :documentFormattingProvider
                                             :codeActionProvider))
   (setq eglot-extend-to-xref t)
+  (setq eglot-stay-out-of '(flymake))
   (add-to-list 'eglot-server-programs
-               '((c-mode c++-mode) . ("ccls")))
+               '((c-mode c++-mode) . ("clangd")))
   (add-to-list 'eglot-server-programs
                '(python-mode . ("pyright-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
@@ -299,7 +300,7 @@
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 
 (use-package magit
-  :ensure t)
+  :defer t)
 
 (use-package hydra
   :ensure t)
@@ -387,7 +388,6 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :defer t)
 
 (use-package auctex
-  :ensure t
   :defer t
   :config
   (setq TeX-auto-save t
@@ -401,7 +401,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
               (setq TeX-command-default "XeLaTeX"))))
 
 (use-package cdlatex
-  :ensure t
+  :defer t
   :hook ((LaTeX-mode . turn-on-cdlatex)
          (org-mode . turn-on-org-cdlatex)))
 
@@ -444,6 +444,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
    ("C-," . er/contract-region)))
 
 (use-package fzf
+  :ensure t
   :bind
     ;; Don't forget to set keybinds!
   :config
@@ -459,7 +460,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
         fzf/window-height 15))
 
 (use-package rust-mode
-  :ensure t
+  :defer t
   :init
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
 
@@ -467,6 +468,19 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :ensure t
   :init
   (whole-line-or-region-global-mode))
+
+;; Tree-sitter in Emacs is an incremental parsing system introduced in Emacs 29
+;; that provides precise, high-performance syntax highlighting. It supports a
+;; broad set of programming languages, including Bash, C, C++, C#, CMake, CSS,
+;; Dockerfile, Go, Java, JavaScript, JSON, Python, Rust, TOML, TypeScript, YAML,
+;; Elisp, Lua, Markdown, and many others.
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 ;;; Load local file
 
