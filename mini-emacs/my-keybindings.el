@@ -13,12 +13,6 @@
 (global-set-key (kbd "M-P") 'copy-from-above-command)
 (global-set-key (kbd "C-;") 'yhu/mark-line)
 (global-set-key (kbd "C-`") 'compile)
-
-(defhydra hydra-text-scale (global-map "C-c t s")
-  "scale text"
-  ("=" text-scale-increase "increase")
-  ("-" text-scale-decrease "decrease")
-  ("0" (text-scale-set 0) "reset" :exit t)
-  ("q" nil "finished" :exit t))
+(global-set-key (kbd "C-,") 'mark-word)
 
 ;;; my-keybindings.el ends here

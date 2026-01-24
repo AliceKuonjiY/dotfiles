@@ -1,7 +1,7 @@
 {
     "layer": "top",
-    "position": "top", 
-    "height": 40, 
+    "position": "top",
+    "height": 32,
     "spacing": 6,
     "modules-left": ["hyprland/workspaces", "niri/workspaces", "tray", "hyprland/window", "niri/window"],
     "modules-center": ["clock"],
@@ -29,12 +29,12 @@
         "separate-outputs": true
     },
     "tray": {
-        "icon-size": 21,
+        "icon-size": 17,
         "spacing": 10
     },
     "clock": {
-	    "format": " {:%H:%M}",
-	    "format-alt": " {:%A, %B %d, %Y}",
+	    "format": "  {:%H:%M}",
+	    "format-alt": "  {:%A, %B %d, %Y}",
 	    "tooltip-format": "<tt><small>{calendar}</small></tt>",
 	    "calendar": {
 	    	"mode"          : "month",
@@ -60,12 +60,12 @@
     },
     "cpu": {
         "interval": 1,
-        "format": " {usage}%",
+        "format": "  {usage}%",
         "tooltip": false
     },
     "memory": {
         "interval": 1,
-        "format": " {used}G",
+        "format": "  {used}G",
         "tooltip": false
     },
     "network": {
@@ -79,7 +79,7 @@
     },
     "pulseaudio": {
         "scroll-step": 5,
-        "format": "{icon} {volume}%",
+        "format": "{icon}  {volume}%",
         "format-bluetooth": "{icon} {volume}%",
         "format-icons": {
             "headphone": "",
@@ -98,7 +98,7 @@
     		"warning": 30,
     		"critical": 15
     	},
-    	"format": "{icon} {capacity}%",
+    	"format": "{icon}  {capacity}%",
     	"format-icons": ["", "", "", "", ""],
     	"max-length": 25,
 	    "on-click": "wlogout"

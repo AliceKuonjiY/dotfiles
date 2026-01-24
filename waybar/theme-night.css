@@ -1,10 +1,10 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "JetBrainsMono NF Medium";
-    font-weight: 600;
-    font-size: 16px;
+    font-family: "JetBrainsMono NF";
+    font-weight: 800;
+    font-size: 14px;
 
-    border-radius: 14px;
+    border-radius: 10px;
     text-shadow: none;
 
     transition-property: background;
@@ -121,8 +121,8 @@ window#waybar.hidden {
 }
 
 #window {
-    font-family: 'JetBrainsMono NF Bold';
-    font-weight: 500;
+    font-family: 'JetBrainsMono NF';
+    font-weight: 800;
     background-color: rgba(16, 20, 24, 0.5);
     color: #cbecff;
 }

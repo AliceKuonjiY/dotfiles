@@ -12,6 +12,7 @@
 ;; Load path
 (add-to-list 'load-path "~/.emacs.d/packages/posframe")
 (add-to-list 'load-path "~/.emacs.d/packages/treesit-context")
+(add-to-list 'load-path "~/.emacs.d/packages/rainbow-mode")
 
 ;; Increase gc-cons-threshold
 (setq minimal-emacs-gc-cons-threshold (* 256 1024 1024))

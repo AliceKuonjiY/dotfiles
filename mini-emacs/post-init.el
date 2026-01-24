@@ -216,7 +216,7 @@
              avy-goto-char-2
              avy-next)
   :init
-  (global-set-key (kbd "C-'") 'avy-goto-char-timer))
+  (global-set-key (kbd "C-'") 'avy-goto-char-2))
 
 ;; Helpful is an alternative to the built-in Emacs help that provides much more
 ;; contextual information.
@@ -285,7 +285,7 @@
   :config
   (setq company-minimum-prefix-length 1)
   (setq company-tooltip-align-annotations t)
-  (setq company-idle-delay 0.2)
+  (setq company-idle-delay 0.0)
   (setq company-show-numbers nil)
   (setq company-selection-wrap-around t)
   (setq company-transformers '(company-sort-by-occurrence)))
@@ -440,8 +440,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 
 (use-package expand-region
   :bind
-  (("C-." . er/expand-region)
-   ("C-," . er/contract-region)))
+  (("C-." . er/expand-region)))
 
 (use-package fzf
   :ensure t
@@ -481,6 +480,21 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+
+(use-package inhibit-mouse
+  :ensure t
+  :custom
+  ;; Disable highlighting of clickable text such as URLs and hyperlinks when
+  ;; hovered by the mouse pointer.
+  (inhibit-mouse-adjust-mouse-highlight nil)
+
+  ;; Disables the use of tooltips (show-help-function) during mouse events.
+  (inhibit-mouse-adjust-show-help-function nil)
+
+  :config
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook #'inhibit-mouse-mode)
+    (inhibit-mouse-mode 0)))
 
 ;;; Load local file
 

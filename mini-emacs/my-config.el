@@ -3,8 +3,8 @@
 ;; theme
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
 (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
-;;(load-theme 'doom-moonlight t)  ; Load the built-in theme
-(load-theme 'gruber-darker t)
+(load-theme 'doom-moonlight t)  ; Load the built-in theme
+;;(load-theme 'gruber-darker t)
 
 ;; Ido
 (ido-mode 1)
@@ -70,11 +70,18 @@
 ;; Set indent
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
+(setq c-mode-indent-offset 4)
 (setq c-ts-mode-indent-offset 4)
+
+;; Auto move cursor to compilation buffer
+(setq compilation-scroll-output 'first-error)
+(add-to-list 'display-buffer-alist
+             '("\\*compilation\\*" . (display-buffer-same-window)))
 
 ;; Treesit context
 (require 'treesit-context)
-(add-hook 'c-mode-hook 'treesit-context)
-(add-hook 'c-ts-mode-hook 'treesit-context)
+
+;; Rainbow mode
+(require 'rainbow-mode)
 
 ;;; my-config.el ends here

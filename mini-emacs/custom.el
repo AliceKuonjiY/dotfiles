@@ -7,10 +7,10 @@
  '(package-selected-packages
    '(ace-window auctex auto-package-update buffer-terminator catppuccin-theme
                 cdlatex company compile-angel copilot doom-themes expand-region
-                fzf gt helpful hydra ivy magit markdown-mode multiple-cursors
-                mwim nerd-icons rainbow-delimiters rime rust-mode smex
-                stripspace treesit-auto undo-fu undo-fu-session unicode-fonts
-                use-package-hydra vim-tab-bar whole-line-or-region))
+                fzf gt helpful hydra inhibit-mouse ivy magit markdown-mode
+                multiple-cursors mwim nerd-icons rainbow-delimiters rime
+                rust-mode smex stripspace treesit-auto undo-fu undo-fu-session
+                unicode-fonts use-package-hydra vim-tab-bar whole-line-or-region))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main")))
  '(safe-local-variable-values '((eval when (fboundp 'rainbow-mode) (rainbow-mode 1)))))
