@@ -134,7 +134,7 @@ layout {
     background-color "transparent"
 
     // Set gaps around windows in logical pixels.
-    gaps 5
+    gaps 2
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -187,12 +187,12 @@ layout {
         // Uncomment this line to disable the focus ring.
         off
 
-        width 3
+        width 2
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
         // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
-        active-color "#7fc8ff"
+        active-color "#7788dd"
         inactive-color "#505050"
 
         // You can also use gradients. They take precedence over solid colors.
@@ -281,10 +281,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 6
-        right 6
-        top 1
-        bottom 2
+        left 0
+        right 0
+        top 3
+        bottom 0
     }
 }
 

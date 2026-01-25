@@ -15,6 +15,22 @@
           (backward-delete-char 1))
       (backward-delete-char 1))))
 
+(defun yhu/kill-word ()
+  "Remove all whitespace if the character behind the cursor is whitespace, otherwise remove a word."
+  (interactive)
+  (if (looking-at "[^a-zA-Z0-9\n]")
+      ;; delete horizontal space before us and then check to see if we
+      ;; are looking at a newline
+      (progn (delete-horizontal-space 't)
+             (while (looking-at "[^a-zA-Z0-9\n]")
+               (delete-char 1)))
+    ;; otherwise, just do the normal kill word.
+    (if (looking-at "[a-zA-Z0-9]")
+        (while (looking-at "[a-zA-Z0-9]")
+          (delete-char 1))
+      (delete-char 1))))
+
+
 (defun yhu/move-line-up ()
   "Move the current line up by one line."
   (interactive)

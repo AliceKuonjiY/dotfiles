@@ -102,17 +102,6 @@
   :custom
   (save-place-limit 400))
 
-;; Smex is a M-x enhancement for Emacs. Built on top of Ido, it provides a convenient interface
-;; to your recently and most frequently used commands. And to all the other commands, too.
-(use-package smex
-  :ensure t
-  :init
-  (smex-initialize)
-  :bind
-  (("M-x" . smex)
-   ("M-X" . smex-major-mode-commands)
-   ("C-c C-c M-x" . execute-extended-command)))
-
 ;; The stripspace Emacs package provides stripspace-local-mode, a minor mode
 ;; that automatically removes trailing whitespace and blank lines at the end of
 ;; the buffer when saving.
@@ -216,7 +205,8 @@
              avy-goto-char-2
              avy-next)
   :init
-  (global-set-key (kbd "C-'") 'avy-goto-char-2))
+  (global-set-key (kbd "C-'") 'avy-goto-char-timer)
+  (setq avy-timeout-seconds 0.3))
 
 ;; Helpful is an alternative to the built-in Emacs help that provides much more
 ;; contextual information.
@@ -495,6 +485,25 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (if (daemonp)
       (add-hook 'server-after-make-frame-hook #'inhibit-mouse-mode)
     (inhibit-mouse-mode 0)))
+
+;; Vertico provides a vertical completion interface, making it easier to
+;; navigate and select from completion candidates (e.g., when `M-x` is pressed).
+(use-package vertico
+  ;; (Note: It is recommended to also enable the savehist package.)
+  :ensure t
+  :init
+  (vertico-mode)
+  (vertico-flat-mode 1))
+
+;; Vertico leverages Orderless' flexible matching capabilities, allowing users
+;; to input multiple patterns separated by spaces, which Orderless then
+;; matches in any order against the candidates.
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
 
 ;;; Load local file
 

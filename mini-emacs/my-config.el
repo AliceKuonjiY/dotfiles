@@ -6,13 +6,6 @@
 (load-theme 'doom-moonlight t)  ; Load the built-in theme
 ;;(load-theme 'gruber-darker t)
 
-;; Ido
-(ido-mode 1)
-(ido-everywhere 1)
-(setq ido-enable-flex-matching t)
-(setq ido-create-new-buffer 'always)
-(setq-default confirm-nonexistent-file-or-buffer nil)
-
 ;; Set font
 (set-face-attribute 'default nil
                     :height 140 :weight 'medium :family "Iosevka")
@@ -67,6 +60,9 @@
 ;; Auto insert matching brackets and quotes
 (electric-pair-mode t)
 
+;; inhibit auto completion
+(setq completion-auto-help nil)
+
 ;; Set indent
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
@@ -83,5 +79,10 @@
 
 ;; Rainbow mode
 (require 'rainbow-mode)
+
+;; Whitespace mode
+(setq whitespace-style '(face tabs spaces trailing
+                              space-mark tab-mark))
+(global-whitespace-mode 1)
 
 ;;; my-config.el ends here
