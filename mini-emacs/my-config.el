@@ -1,10 +1,8 @@
 ;;; my-config.el --- My config -*- lexical-binding:t -*-
 
 ;; theme
-(mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
-(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
-(load-theme 'doom-moonlight t)  ; Load the built-in theme
-;;(load-theme 'gruber-darker t)
+(load-theme 'doom-moonlight t)
+;; (load-theme 'gruber-darker t)
 
 ;; Set font
 (set-face-attribute 'default nil

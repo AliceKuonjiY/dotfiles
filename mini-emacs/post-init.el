@@ -1,9 +1,5 @@
 ;;; post-init.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
-;;themes
-(use-package doom-themes)
-(use-package catppuccin-theme)
-
 ;; Native compilation enhances Emacs performance by converting Elisp code into
 ;; native machine code, resulting in faster execution and improved
 ;; responsiveness.
@@ -415,10 +411,6 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :ensure t
   :bind (("C-x o" . 'ace-window)))
 
-(use-package rainbow-delimiters
-  :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
-
 (use-package gt
   :defer t
   :config
@@ -427,10 +419,6 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (setq gt-taker-text 'word)
   (setq gt-taker-pick 'paragraph)
   (setq gt-taker-prompt nil))
-
-(use-package expand-region
-  :bind
-  (("C-." . er/expand-region)))
 
 (use-package fzf
   :ensure t

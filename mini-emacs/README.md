@@ -1,8 +1,12 @@
 # Dependency
 
 - [company-mode](https://github.com/company-mode/company-mode)
+- [catppuccin-theme](https://github.com/catppuccin/emacs)
+- [doom-themes](https://github.com/doomemacs/themes)
+  [doom-themes](https://github.com/AliceKuonjiY/doom-themes)
 - [eglot](https://github.com/joaotavora/eglot)
 - [gruber-darker-theme](https://github.com/rexim/gruber-darker-theme)
+  [gruber-darker-theme](https://github.com/AliceKuonjiY/gruber-darker-theme)
 - [ido](https://www.gnu.org/software/emacs/manual/html_mono/ido.html)
 - [marginalia](https://github.com/minad/marginalia)
 - [minimal-emacs](https://github.com/jamescherti/minimal-emacs.d)

@@ -15,6 +15,6 @@
 (global-set-key (kbd "M-P") 'copy-from-above-command)
 (global-set-key (kbd "C-;") 'yhu/mark-line)
 (global-set-key (kbd "C-`") 'compile)
-(global-set-key (kbd "C-,") 'mark-word)
+(global-set-key (kbd "C-.") 'mark-word)
 
 ;;; my-keybindings.el ends here
