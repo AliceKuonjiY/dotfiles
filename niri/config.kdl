@@ -134,7 +134,7 @@ layout {
     background-color "transparent"
 
     // Set gaps around windows in logical pixels.
-    gaps 2
+    gaps 1
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -283,8 +283,8 @@ layout {
     struts {
         left 0
         right 0
-        top 3
-        bottom 0
+        top 1
+        bottom 1
     }
 }
 
@@ -372,6 +372,11 @@ window-rule {
 
 window-rule {
     match is-active=false
+    opacity 0.90
+}
+
+/-window-rule {
+    match title="Emacs$"
     opacity 0.90
 }
 

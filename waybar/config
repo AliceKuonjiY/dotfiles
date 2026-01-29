@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 32,
+    "height": 30,
     "spacing": 6,
     "modules-left": ["hyprland/workspaces", "niri/workspaces", "tray", "hyprland/window", "niri/window"],
     "modules-center": ["clock"],
@@ -29,7 +29,7 @@
         "separate-outputs": true
     },
     "tray": {
-        "icon-size": 17,
+        "icon-size": 16,
         "spacing": 10
     },
     "clock": {

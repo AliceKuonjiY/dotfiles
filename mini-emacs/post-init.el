@@ -241,29 +241,27 @@
   ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
   )
 
-(use-package eglot
-  :defer t
+(use-package lsp-mode
+  :ensure t
   :init
-  (add-hook 'c-mode-hook #'eglot-ensure)
-  (add-hook 'c-ts-mode-hook #'eglot-ensure)
-  (add-hook 'c++-mode-hook #'eglot-ensure)
-  (add-hook 'python-mode-hook #'eglot-ensure)
-  (add-hook 'python-ts-mode-hook #'eglot-ensure)
-  (add-hook 'rust-mode-hook #'eglot-ensure)
+  (add-hook 'c-ts-mode-hook 'lsp-mode)
+  (add-hook 'python-ts-mode-hook 'lsp-mode)
+  (add-hook 'rust-ts-mode-hook 'lsp-mode)
+  :custom
+  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-enable-indentation nil)
+  (lsp-enable-on-type-formatting nil)
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-clients-clangd-args '("--header-insertion=never"))
   :config
-  (setq eglot-ignored-server-capabilities '(:inlayHintProvider
-                                            :documentOnTypeFormattingProvider
-                                            :documentRangeFormattingProvider
-                                            :documentFormattingProvider
-                                            :codeActionProvider))
-  (setq eglot-extend-to-xref t)
-  (setq eglot-stay-out-of '(flymake))
-  (add-to-list 'eglot-server-programs
-               '((c-mode c++-mode) . ("clangd")))
-  (add-to-list 'eglot-server-programs
-               '(python-mode . ("pyright-langserver" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '((rust-ts-mode rust-mode) . ("rust-analyzer"))))
+  (setq lsp-diagnostics-provider :none))
+
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :ensure t
+  :custom
+  (lsp-ui-doc-enable nil))
 
 (use-package company
   :ensure t
@@ -493,8 +491,25 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
+
+(use-package flycheck
+  :ensure t
+  :hook
+  (python-ts-mode . flycheck-mode)
+  (rust-ts-mode . flycheck-mode))
+
+(use-package flycheck-rust
+  :defer t
+  :hook
+  (rust-ts-mode . flycheck-rust-setup))
+
 ;;; Load local file
 
 (minimal-emacs-load-user-init "my-code.el")
 (minimal-emacs-load-user-init "my-keybindings.el")
 (minimal-emacs-load-user-init "my-config.el")
+
+;;; post-init.el ends here

@@ -8,8 +8,9 @@
    '("f9d423fcd4581f368b08c720f04d206ee80b37bfb314fa37e279f554b6f415e9" default))
  '(package-selected-packages
    '(ace-window auctex auto-package-update buffer-terminator cdlatex company
-                compile-angel copilot fzf gt helpful hydra inhibit-mouse ivy
-                magit markdown-mode multiple-cursors mwim nerd-icons orderless
+                compile-angel copilot flycheck flycheck-rust fzf gt helpful
+                hydra inhibit-mouse ivy lsp-mode lsp-ui magit markdown-mode
+                multiple-cursors mwim nerd-icons orderless rainbow-delimiters
                 rime rust-mode smex stripspace treesit-auto undo-fu
                 undo-fu-session unicode-fonts use-package-hydra vertico
                 vim-tab-bar whole-line-or-region))

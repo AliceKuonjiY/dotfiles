@@ -20,9 +20,9 @@ window#waybar.hidden {
 }
 
 #workspaces {
-	margin-top: 6px;
-	background: rgba(16, 20, 24, 0.5);
-	transition: none;
+    margin-top: 2px;
+    background: rgba(16, 20, 24, 0.5);
+    transition: none;
 
     font-size: 12px;
 }
@@ -66,19 +66,19 @@ window#waybar.hidden {
 #tray,
 #mode,
 #window {
-    margin-top: 6px;
+    margin-top: 2px;
     padding: 0 12px;
     color: #ffffff;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left > widget:first-child > * {
-    margin-left: 16px;
+    margin-left: 2px;
 }
 
 /* If workspaces is the rightmost module, omit right margin */
 .modules-right > widget:last-child > * {
-    margin-right: 16px;
+    margin-right: 2px;
 }
 
 #clock {

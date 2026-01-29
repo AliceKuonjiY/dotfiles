@@ -1,7 +1,8 @@
 ;;; my-config.el --- My config -*- lexical-binding:t -*-
 
 ;; theme
-(load-theme 'doom-moonlight t)
+;; (load-theme 'doom-moonlight t)
+(load-theme 'doom-gruber-darker t)
 ;; (load-theme 'gruber-darker t)
 
 ;; Set font
@@ -64,13 +65,10 @@
 ;; Set indent
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
-(setq c-mode-indent-offset 4)
 (setq c-ts-mode-indent-offset 4)
 
 ;; Auto move cursor to compilation buffer
 (setq compilation-scroll-output 'first-error)
-(add-to-list 'display-buffer-alist
-             '("\\*compilation\\*" . (display-buffer-same-window)))
 
 ;; Treesit context
 (require 'treesit-context)
@@ -81,6 +79,5 @@
 ;; Whitespace mode
 (setq whitespace-style '(face tabs spaces trailing
                               space-mark tab-mark))
-(global-whitespace-mode 1)
 
 ;;; my-config.el ends here
