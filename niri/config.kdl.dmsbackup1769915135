@@ -123,7 +123,7 @@ cursor {
 layer-rule {
     // This is for swaybg; change for other wallpaper tools.
     // Find the right namespace by running niri msg layers.
-    match namespace="^dms"
+    match namespace="^wallpaper$"
     place-within-backdrop true
 }
 
@@ -281,10 +281,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 2
-        right 2
+        left 0
+        right 0
         top 0
-        bottom 2
+        bottom 0
     }
 }
 
@@ -294,15 +294,15 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-// spawn-at-startup "swaync"
+spawn-at-startup "swaync"
 // spawn-at-startup "nm-applet"
 // spawn-at-startup "blueman-applet"
 spawn-at-startup "fcitx5"
-// spawn-at-startup "swww-daemon"
+spawn-at-startup "swww-daemon"
 // spawn-sh-at-startup "udiskie"
 // spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
 // spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
-// spawn-sh-at-startup "sleep 1 && ~/.config/niri/swww_randomize.sh ~/Pictures/WallPapers/swww"
+spawn-sh-at-startup "sleep 1 && ~/.config/niri/swww_randomize.sh ~/Pictures/WallPapers/swww"
 
 // prefer-no-csd
 
@@ -682,6 +682,3 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
-include "dms/binds.kdl"
-
-include "dms/cursor.kdl"

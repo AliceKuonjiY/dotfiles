@@ -10,11 +10,12 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ;; Load path
-(add-to-list 'load-path "~/.emacs.d/packages/posframe")
+(add-to-list 'load-path "~/.emacs.d/packages/gruber-darker-theme")
 (add-to-list 'load-path "~/.emacs.d/packages/treesit-context")
 (add-to-list 'load-path "~/.emacs.d/packages/rainbow-mode")
 (add-to-list 'load-path "~/.emacs.d/packages/doom-themes")
-(add-to-list 'load-path "~/.emacs.d/packages/company-posframe")
+(add-to-list 'load-path "~/.emacs.d/packages/posframe")
+
 ;; Increase gc-cons-threshold
 (setq minimal-emacs-gc-cons-threshold (* 256 1024 1024))
 

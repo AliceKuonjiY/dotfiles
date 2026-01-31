@@ -123,7 +123,7 @@ cursor {
 layer-rule {
     // This is for swaybg; change for other wallpaper tools.
     // Find the right namespace by running niri msg layers.
-    match namespace="^dms"
+    match namespace="^wallpaper$"
     place-within-backdrop true
 }
 
@@ -281,10 +281,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 2
-        right 2
+        left 0
+        right 0
         top 0
-        bottom 2
+        bottom 0
     }
 }
 
@@ -683,5 +683,3 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 include "dms/binds.kdl"
-
-include "dms/cursor.kdl"

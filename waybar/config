@@ -2,7 +2,7 @@
     "layer": "top",
     "position": "top",
     "height": 0,
-    "spacing": 2,
+    "spacing": 1,
     "modules-left": ["hyprland/workspaces", "niri/workspaces", "tray", "hyprland/window", "niri/window"],
     "modules-center": ["clock"],
     "modules-right": ["network", "bluetooth", "memory", "cpu", "pulseaudio", "battery"],
