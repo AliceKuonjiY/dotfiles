@@ -434,11 +434,6 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
         fzf/position-bottom t
         fzf/window-height 15))
 
-(use-package rust-mode
-  :defer t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
-
 (use-package whole-line-or-region
   :ensure t
   :init
@@ -455,6 +450,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
+  (setq treesit-auto-langs '(python rust c))
   (global-treesit-auto-mode))
 
 (use-package inhibit-mouse
@@ -505,6 +501,9 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :defer t
   :hook
   (rust-ts-mode . flycheck-rust-setup))
+
+(use-package vterm
+  :ensure t)
 
 ;;; Load local file
 
