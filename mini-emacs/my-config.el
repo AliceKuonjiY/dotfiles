@@ -81,8 +81,4 @@
                               space-mark tab-mark))
 (global-whitespace-mode 1)
 
-;; Company posframe
-(require 'company-posframe)
-(company-posframe-mode 1)
-
 ;;; my-config.el ends here
