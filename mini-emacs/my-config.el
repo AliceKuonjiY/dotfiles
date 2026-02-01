@@ -7,7 +7,7 @@
 
 ;; Set font
 (set-face-attribute 'default nil
-                    :height 140 :weight 'medium :family "Iosevka")
+                    :height 140 :weight 'regular :family "Iosevka Nerd Font")
 (set-fontset-font
     (frame-parameter nil 'font)
     'han
@@ -77,8 +77,7 @@
 (require 'rainbow-mode)
 
 ;; Whitespace mode
-(setq whitespace-style '(face tabs spaces trailing
-                              space-mark tab-mark))
+(setq whitespace-style '(face tabs trailing tab-mark))
 (global-whitespace-mode 1)
 
 ;;; my-config.el ends here

@@ -233,14 +233,6 @@
   (which-key-add-column-padding 1)
   (which-key-max-description-length 40))
 
-(use-package nerd-icons
-  ;; :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-  )
-
 (use-package lsp-mode
   :ensure t
   :init
@@ -449,7 +441,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :custom
   (treesit-auto-install 'prompt)
   :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
+  (treesit-auto-add-to-auto-mode-alist '(python rust c))
   (setq treesit-auto-langs '(python rust c))
   (global-treesit-auto-mode))
 

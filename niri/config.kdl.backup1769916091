@@ -281,10 +281,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 1
-        right 1
+        left 0
+        right 0
         top 0
-        bottom 1
+        bottom 0
     }
 }
 
@@ -683,5 +683,3 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 include "dms/binds.kdl"
-
-include "dms/cursor.kdl"
