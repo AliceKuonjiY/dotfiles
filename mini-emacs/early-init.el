@@ -476,10 +476,16 @@ this stage of initialization."
 (setq package-enable-at-startup nil)  ; Let the init.el file handle this
 (setq package-quickstart-file
       (expand-file-name "package-quickstart.el" user-emacs-directory))
-(setq package-archives '(("melpa"        . "https://melpa.org/packages/")
-                         ("gnu"          . "https://elpa.gnu.org/packages/")
-                         ("nongnu"       . "https://elpa.nongnu.org/nongnu/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+;; (setq package-archives '(("melpa"        . "https://melpa.org/packages/")
+;;                          ("gnu"          . "https://elpa.gnu.org/packages/")
+;;                          ("nongnu"       . "https://elpa.nongnu.org/nongnu/")
+;;                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
+(setq package-archives '(("gnu"    . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")
+                         ("melpa"  . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+(package-initialize)
+
 (setq package-archive-priorities '(("gnu"    . 99)
                                    ("nongnu" . 80)
                                    ("melpa"  . 70)

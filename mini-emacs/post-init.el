@@ -1,5 +1,8 @@
 ;;; post-init.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
+(use-package doom-themes
+  :ensure t)
+
 ;; Native compilation enhances Emacs performance by converting Elisp code into
 ;; native machine code, resulting in faster execution and improved
 ;; responsiveness.
@@ -252,8 +255,12 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :ensure t
+  :bind
+  (("C-c c k" . lsp-ui-doc-glance))
   :custom
-  (lsp-ui-doc-enable nil))
+  (lsp-ui-doc-enable 1)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-doc-show-with-cursor nil))
 
 (use-package company
   :ensure t
@@ -481,7 +488,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package flycheck
   :ensure t
@@ -497,10 +504,10 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 (use-package vterm
   :ensure t)
 
-;; (use-package git-gutter
-;;   :ensure t
-;;   :config
-;;   (global-git-gutter-mode 1))
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode 1))
 
 ;;; Load local file
 

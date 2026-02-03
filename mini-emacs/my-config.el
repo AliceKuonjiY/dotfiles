@@ -1,9 +1,7 @@
 ;;; my-config.el --- My config -*- lexical-binding:t -*-
 
 ;; theme
-;; (load-theme 'doom-moonlight t)
-(load-theme 'doom-gruber-darker t)
-;; (load-theme 'gruber-darker t)
+(load-theme 'doom-yhu-moonlight t)
 
 ;; Set font
 (set-face-attribute 'default nil
