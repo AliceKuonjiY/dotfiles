@@ -68,14 +68,16 @@
 ;; Auto move cursor to compilation buffer
 (setq compilation-scroll-output 'first-error)
 
-;; Treesit context
-(require 'treesit-context)
-
 ;; Rainbow mode
 (require 'rainbow-mode)
 
+;; Company posframe
+(require 'company-posframe)
+(company-posframe-mode 1)
+
 ;; Whitespace mode
-(setq whitespace-style '(face tabs trailing tab-mark))
+(setq whitespace-style '(face tabs spaces trailing lines-tail
+                              space-mark tab-mark))
 (global-whitespace-mode 1)
 
 ;;; my-config.el ends here

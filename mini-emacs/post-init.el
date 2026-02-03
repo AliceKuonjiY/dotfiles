@@ -255,12 +255,12 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :ensure t
-  :bind
-  (("C-c c k" . lsp-ui-doc-glance))
   :custom
   (lsp-ui-doc-enable 1)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-ui-doc-show-with-cursor nil))
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-delay 1)
+  (lsp-ui-doc-show-with-mouse 1)
+  (lsp-ui-doc-show-with-cursor 1))
 
 (use-package company
   :ensure t
