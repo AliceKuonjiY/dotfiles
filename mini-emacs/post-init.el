@@ -494,8 +494,8 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :hook
   (rust-ts-mode . flycheck-rust-setup))
 
-;; (use-package vterm
-;;   :ensure t)
+(use-package vterm
+  :ensure t)
 
 ;; (use-package git-gutter
 ;;   :ensure t

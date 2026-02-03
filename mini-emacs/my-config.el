@@ -76,9 +76,6 @@
 ;; Rainbow mode
 (require 'rainbow-mode)
 
-;; Posframe
-(require 'posframe)
-
 ;; Whitespace mode
 (setq whitespace-style '(face tabs trailing tab-mark))
 (global-whitespace-mode 1)
