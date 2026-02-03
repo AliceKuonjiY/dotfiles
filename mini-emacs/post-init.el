@@ -273,6 +273,12 @@
   (setq company-selection-wrap-around t)
   (setq company-transformers '(company-sort-by-occurrence)))
 
+(use-package company-posframe
+  :ensure t
+  :config
+  (company-posframe-mode 1)
+  (setq company-posframe-quickhelp-delay nil))
+
 (use-package copilot
   :defer t
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
@@ -508,6 +514,9 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   :ensure t
   :config
   (global-git-gutter-mode 1))
+
+(use-package rainbow-mode
+  :ensure t)
 
 ;;; Load local file
 

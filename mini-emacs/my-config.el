@@ -68,13 +68,6 @@
 ;; Auto move cursor to compilation buffer
 (setq compilation-scroll-output 'first-error)
 
-;; Rainbow mode
-(require 'rainbow-mode)
-
-;; Company posframe
-(require 'company-posframe)
-(company-posframe-mode 1)
-
 ;; Whitespace mode
 (setq whitespace-style '(face tabs spaces trailing lines-tail
                               space-mark tab-mark))

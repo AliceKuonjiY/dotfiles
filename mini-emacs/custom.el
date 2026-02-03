@@ -6,11 +6,12 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(ace-window auctex auto-package-update buffer-terminator cdlatex company
-                compile-angel copilot doom-themes flycheck-rust fzf git-gutter
-                gt helpful hydra inhibit-mouse lsp-ui magit multiple-cursors
-                mwim orderless rainbow-delimiters rime stripspace treesit-auto
-                undo-fu undo-fu-session unicode-fonts use-package-hydra vertico
-                vim-tab-bar vterm whole-line-or-region))
+                company-posframe compile-angel copilot doom-themes flycheck-rust
+                fzf git-gutter gt helpful hydra inhibit-mouse lsp-ui magit
+                multiple-cursors mwim orderless rainbow-delimiters rainbow-mode
+                rime stripspace treesit-auto undo-fu undo-fu-session
+                unicode-fonts use-package-hydra vertico vim-tab-bar vterm
+                whole-line-or-region))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main"))))
 (custom-set-faces
