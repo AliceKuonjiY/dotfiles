@@ -4,6 +4,7 @@
 - [company-posframe](https://github.com/tumashu/company-posframe)
 - [doom-themes](https://github.com/doomemacs/themes)
   [doom-themes](https://github.com/AliceKuonjiY/doom-themes)
+- [doom-modeline](https://github.com/seagle0128/doom-modeline)
 - [flycheck](https://github.com/flycheck/flycheck)
 - [gruber-darker-theme](https://github.com/rexim/gruber-darker-theme)
   [gruber-darker-theme](https://github.com/AliceKuonjiY/gruber-darker-theme)

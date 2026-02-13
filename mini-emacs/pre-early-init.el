@@ -9,9 +9,6 @@
 ;; Load local themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-;; Increase gc-cons-threshold
-(setq minimal-emacs-gc-cons-threshold (* 256 1024 1024))
-
 (defun display-startup-time ()
   "Display the startup time and number of garbage collections."
   (message "Emacs init loaded in %.2f seconds (Full emacs-startup: %.2fs) with %d garbage collections."

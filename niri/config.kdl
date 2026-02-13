@@ -109,7 +109,7 @@ input {
 }
 
 overview {
-    zoom 0.3
+    zoom 0.4
     workspace-shadow {
         on
     }
@@ -120,7 +120,7 @@ cursor {
 }
 
 // Make the wallpaper stationary, rather than moving with workspaces.
-layer-rule {
+/-layer-rule {
     // This is for swaybg; change for other wallpaper tools.
     // Find the right namespace by running niri msg layers.
     match namespace="^dms"
@@ -143,7 +143,7 @@ layout {
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
     center-focused-column "on-overflow"
-    always-center-single-column
+    // always-center-single-column
 
     preset-column-widths {
         proportion 0.16667
@@ -187,13 +187,13 @@ layout {
         // Uncomment this line to disable the focus ring.
         off
 
-        width 2
+        // width 2
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
         // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
-        active-color "#7788dd"
-        inactive-color "#505050"
+        // active-color "#7788dd"
+        // inactive-color "#505050"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -215,7 +215,7 @@ layout {
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        off
+        on
 
         width 3
         active-color "#7fc8ff"
@@ -281,10 +281,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        left 2
-        right 2
-        top 0
-        bottom 2
+        left 1
+        right 1
+        top 1
+        bottom 1
     }
 }
 
@@ -298,6 +298,7 @@ layout {
 // spawn-at-startup "nm-applet"
 // spawn-at-startup "blueman-applet"
 spawn-at-startup "fcitx5"
+spawn-sh-at-startup "ln -sf ~/.config/kitty/kitty.wayland.conf ~/.config/kitty/kitty.conf"
 // spawn-at-startup "swww-daemon"
 // spawn-sh-at-startup "udiskie"
 // spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
@@ -337,7 +338,7 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    slowdown 1
+    slowdown 1.5
     workspace-switch {
         spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
     }
@@ -377,7 +378,15 @@ window-rule {
 
 /-window-rule {
     match title="Emacs$"
-    opacity 0.90
+    match app-id="kitty"
+    opacity 0.95
+}
+
+window-rule {
+    match title="^QQ$"
+    match title="^Clash Verge$"
+    match title="^我的足迹$"
+    open-floating true
 }
 
 // Example: block out two password managers from screen capture.
@@ -623,7 +632,7 @@ binds {
     Mod+Ctrl+F { expand-column-to-available-width; }
 
     Mod+C { center-column; }
-    Mod+M { spawn-sh "~/.config/niri/swww_randomize.sh ~/Pictures/WallPapers/swww"; }
+    // Mod+M { spawn-sh "~/.config/niri/swww_randomize.sh ~/Pictures/WallPapers/swww"; }
 
     // Center all fully visible columns on screen.
     Mod+Ctrl+C { center-visible-columns; }
@@ -682,6 +691,9 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
-include "dms/binds.kdl"
 
+include "dms/binds.kdl"
 include "dms/cursor.kdl"
+include "dms/layout.kdl"
+include "dms/colors.kdl"
+include "dms/wpblur.kdl"

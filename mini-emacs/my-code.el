@@ -55,4 +55,32 @@
   (set-mark-command nil)
   (move-end-of-line nil))
 
+(defun yhu/refresh-config ()
+  (interactive)
+  (load-file "~/.emacs.d/post-init.el"))
+
+(defun yhu/scroll-up-line ()
+  (interactive)
+  (scroll-up-line)
+  (next-line))
+
+(defun yhu/scroll-down-line ()
+  (interactive)
+  (scroll-down-line)
+  (previous-line))
+
+(defun yhu/dup-line-and-move-to-original-line (&optional n)
+  (interactive "p")
+  (unless n
+    (setq n 1))
+  (setq-local duplicate-line-final-position 0)
+  (duplicate-line n))
+
+(defun yhu/dup-line-and-move-to-last-new-line (&optional n)
+  (interactive "p")
+  (unless n
+    (setq n 1))
+  (setq-local duplicate-line-final-position -1)
+  (duplicate-line n))
+
 ;;; my-code.el ends here

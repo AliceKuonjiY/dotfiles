@@ -1,7 +1,20 @@
 ;;; post-init.el --- DESCRIPTION -*- no-byte-compile: t; lexical-binding: t; -*-
 
+(use-package catppuccin-theme
+  :ensure t)
+
 (use-package doom-themes
   :ensure t)
+
+(use-package doom-modeline
+  :ensure t
+  :config
+  (setq doom-modeline-buffer-file-name-style 'truncate-nil)
+  (setq doom-modeline-enable-word-count 1)
+  (setq doom-modeline-indent-info 1)
+  (setq doom-modeline-total-line-number 1)
+  :init
+  (doom-modeline-mode 1))
 
 ;; Native compilation enhances Emacs performance by converting Elisp code into
 ;; native machine code, resulting in faster execution and improved
@@ -128,7 +141,7 @@
 ;; The undo-fu package is a lightweight wrapper around Emacs' built-in undo
 ;; system, providing more convenient undo/redo functionality.
 (use-package undo-fu
-  :ensure t
+  :defer t
   :commands (undo-fu-only-undo
              undo-fu-only-redo
              undo-fu-only-redo-all
@@ -137,52 +150,9 @@
   (("C-/" . undo-fu-only-undo)
    ("C-?" . undo-fu-only-redo)))
 
-;; The undo-fu-session package complements undo-fu by enabling the saving
-;; and restoration of undo history across Emacs sessions, even after restarting.
 (use-package undo-fu-session
   :ensure t
-  :commands undo-fu-session-global-mode
-  :hook (after-init . undo-fu-session-global-mode))
-
-;; Give Emacs tab-bar a style similar to Vim's
-(use-package vim-tab-bar
-  :ensure t
-  :commands vim-tab-bar-mode
-  :hook (after-init . vim-tab-bar-mode)
-  :bind
-  (("C-x <up>" . tab-previous)
-   ("C-x <down>" . tab-next)))
-
-;; This automates the process of updating installed packages
-(use-package auto-package-update
-  :ensure t
-  :custom
-  ;; Set the number of days between automatic updates.
-  ;; Here, packages will only be updated if at least 7 days have passed
-  ;; since the last successful update.
-  (auto-package-update-interval 7)
-  ;; Suppress display of the *auto-package-update results* buffer after updates.
-  ;; This keeps the user interface clean and avoids unnecessary interruptions.
-  (auto-package-update-hide-results t)
-  ;; Automatically delete old package versions after updates to reduce disk
-  ;; usage and keep the package directory clean. This prevents the accumulation
-  ;; of outdated files in Emacs’s package directory, which consume
-  ;; unnecessary disk space over time.
-  (auto-package-update-delete-old-versions t)
-  ;; Uncomment the following line to enable a confirmation prompt
-  ;; before applying updates. This can be useful if you want manual control.
-  ;; (auto-package-update-prompt-before-update t)
-  :config
-  ;; Run package updates automatically at startup, but only if the configured
-  ;; interval has elapsed.
-  (auto-package-update-maybe)
-  ;; Schedule a background update attempt daily at 10:00 AM.
-  ;; This uses Emacs' internal timer system. If Emacs is running at that time,
-  ;; the update will be triggered. Otherwise, the update is skipped for that
-  ;; day. Note that this scheduled update is independent of
-  ;; `auto-package-update-maybe` and can be used as a complementary or
-  ;; alternative mechanism.
-  (auto-package-update-at-time "10:00"))
+  :commands undo-fu-session-global-mode)
 
 (use-package buffer-terminator
   :ensure t
@@ -199,32 +169,13 @@
   (buffer-terminator-mode 1))
 
 (use-package avy
-  :ensure t
+  :defer t
   :commands (avy-goto-char
              avy-goto-char-2
              avy-next)
   :init
   (global-set-key (kbd "C-'") 'avy-goto-char-timer)
   (setq avy-timeout-seconds 0.3))
-
-;; Helpful is an alternative to the built-in Emacs help that provides much more
-;; contextual information.
-(use-package helpful
-  :ensure t
-  :commands (helpful-callable
-             helpful-variable
-             helpful-key
-             helpful-command
-             helpful-at-point
-             helpful-function)
-  :bind
-  ([remap describe-command] . helpful-command)
-  ([remap describe-function] . helpful-callable)
-  ([remap describe-key] . helpful-key)
-  ([remap describe-symbol] . helpful-symbol)
-  ([remap describe-variable] . helpful-variable)
-  :custom
-  (helpful-max-buffers 7))
 
 (use-package which-key
   :ensure nil ; builtin
@@ -237,11 +188,13 @@
   (which-key-max-description-length 40))
 
 (use-package lsp-mode
-  :ensure t
+  :defer t
   :init
-  (add-hook 'c-ts-mode-hook 'lsp-mode)
-  (add-hook 'python-ts-mode-hook 'lsp-mode)
-  (add-hook 'rust-ts-mode-hook 'lsp-mode)
+  ;; (add-hook 'c-ts-mode-hook 'lsp-mode)
+  ;; (add-hook 'python-ts-mode-hook 'lsp-mode)
+  ;; (add-hook 'rust-ts-mode-hook 'lsp-mode)
+  (setq lsp-eldoc-enable-hover nil)
+  (setq lsp-signature-auto-activate nil)
   :custom
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-enable-indentation nil)
@@ -253,17 +206,19 @@
   (setq lsp-diagnostics-provider :none))
 
 (use-package lsp-ui
+  :defer t
   :commands lsp-ui-mode
-  :ensure t
+  :bind
+  (("C-c c k" . lsp-ui-doc-toggle))
   :custom
   (lsp-ui-doc-enable 1)
-  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-position 'top)
   (lsp-ui-doc-delay 1)
   (lsp-ui-doc-show-with-mouse 1)
-  (lsp-ui-doc-show-with-cursor 1))
+  (lsp-ui-doc-show-with-cursor nil))
 
 (use-package company
-  :ensure t
+  :defer t
   :init (global-company-mode)
   :config
   (setq company-minimum-prefix-length 1)
@@ -272,12 +227,6 @@
   (setq company-show-numbers nil)
   (setq company-selection-wrap-around t)
   (setq company-transformers '(company-sort-by-occurrence)))
-
-(use-package company-posframe
-  :ensure t
-  :config
-  (company-posframe-mode 1)
-  (setq company-posframe-quickhelp-delay nil))
 
 (use-package copilot
   :defer t
@@ -291,45 +240,10 @@
 (use-package magit
   :defer t)
 
-(use-package hydra
-  :ensure t)
-
-(use-package use-package-hydra
-  :ensure t
-  :after hydra)
-
 (use-package multiple-cursors
-  :ensure t
-  :after hydra
+  :defer t
   :bind
-  (("C-x C-h" . hydra-multiple-cursors/body)
-   ("C-S-<mouse-1>" . mc/toggle-cursor-on-click))
-  :hydra (hydra-multiple-cursors
-          (:hint nil)
-          "
-Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
-------------------------------------------------------------------
- [_p_]   Prev     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
- [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
- [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search      [_q_] Quit
- [_|_] Align with input CHAR       [Click] Cursor at point"
-          ("l" mc/edit-lines :exit t)
-          ("a" mc/mark-all-like-this :exit t)
-          ("n" mc/mark-next-like-this)
-          ("N" mc/skip-to-next-like-this)
-          ("M-n" mc/unmark-next-like-this)
-          ("p" mc/mark-previous-like-this)
-          ("P" mc/skip-to-previous-like-this)
-          ("M-p" mc/unmark-previous-like-this)
-          ("|" mc/vertical-align)
-          ("s" mc/mark-all-in-region-regexp :exit t)
-          ("0" mc/insert-numbers :exit t)
-          ("A" mc/insert-letters :exit t)
-          ("<mouse-1>" mc/add-cursor-on-click)
-          ;; Help with click recognition in this hydra
-          ("<down-mouse-1>" ignore)
-          ("<drag-mouse-1>" ignore)
-          ("q" nil)))
+  (("C-S-<mouse-1>" . mc/toggle-cursor-on-click)))
 
 ;; Org mode is a major mode designed for organizing notes, planning, task
 ;; management, and authoring documents using plain text with a simple and
@@ -400,18 +314,18 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (default-input-method "rime"))
 
 (use-package unicode-fonts
-  :ensure t
+  :defer t
   :init
   (unicode-fonts-setup))
 
 (use-package mwim
-  :ensure t
+  :defer t
   :bind
   ("C-a" . mwim-beginning-of-code-or-line)
   ("C-e" . mwim-end-of-code-or-line))
 
 (use-package ace-window
-  :ensure t
+  :defer t
   :bind (("C-x o" . 'ace-window)))
 
 (use-package gt
@@ -424,9 +338,9 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (setq gt-taker-prompt nil))
 
 (use-package fzf
-  :ensure t
+  :defer t
   :bind
-    ;; Don't forget to set keybinds!
+  ;; Don't forget to set keybinds!
   :config
   (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
         fzf/executable "fzf"
@@ -459,7 +373,7 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (global-treesit-auto-mode))
 
 (use-package inhibit-mouse
-  :ensure t
+  :defer t
   :custom
   ;; Disable highlighting of clickable text such as URLs and hyperlinks when
   ;; hovered by the mouse pointer.
@@ -477,27 +391,39 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
 ;; navigate and select from completion candidates (e.g., when `M-x` is pressed).
 (use-package vertico
   ;; (Note: It is recommended to also enable the savehist package.)
-  :ensure t
+  :defer t
+  :config
+  (setq vertico-count 8)
+  (setq vertico-resize nil)
   :init
-  (vertico-mode)
-  (vertico-flat-mode 1))
+  (vertico-mode))
 
 ;; Vertico leverages Orderless' flexible matching capabilities, allowing users
 ;; to input multiple patterns separated by spaces, which Orderless then
 ;; matches in any order against the candidates.
 (use-package orderless
-  :ensure t
+  :defer t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+;; Marginalia allows Embark to offer you preconfigured actions in more contexts.
+;; In addition to that, Marginalia also enhances Vertico by adding rich
+;; annotations to the completion candidates displayed in Vertico's interface.
+(use-package marginalia
+  :defer t
+  :commands (marginalia-mode marginalia-cycle)
+  :hook (after-init . marginalia-mode))
+
 (use-package rainbow-delimiters
-  :ensure t
+  :defer t
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package flycheck
-  :ensure t
+  :defer t
+  :config
+  (setq flycheck-checkers (delq 'python-pycompile flycheck-checkers))
   :hook
   (python-ts-mode . flycheck-mode)
   (rust-ts-mode . flycheck-mode))
@@ -508,15 +434,16 @@ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cu
   (rust-ts-mode . flycheck-rust-setup))
 
 (use-package vterm
-  :ensure t)
-
-(use-package git-gutter
-  :ensure t
-  :config
-  (global-git-gutter-mode 1))
+  :defer t)
 
 (use-package rainbow-mode
-  :ensure t)
+  :defer t)
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 'prog-mode
+                          '("==" "!=" ">=" "<=" "->" "/*" "*/" "//"))
+  (global-ligature-mode t))
 
 ;;; Load local file
 
