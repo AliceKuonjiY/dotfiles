@@ -1,0 +1,116 @@
+[buildPlans.IosevkaCustom]
+family = "Iosevka Custom"
+spacing = "normal"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+  [buildPlans.IosevkaCustom.variants]
+  inherits = "ss14"
+
+    [buildPlans.IosevkaCustom.variants.design]
+    one = "no-base"
+    four = "semi-open-serifless"
+    seven = "straight-serifless"
+    capital-i = "serifed"
+    capital-j = "serifed"
+    capital-m = "flat-bottom-serifless"
+    a = "double-storey-serifless"
+    b = "toothed-serifless"
+    d = "toothed-serifless"
+    e = "flat-crossbar"
+    f = "serifless"
+    g = "single-storey-serifless"
+    i = "tailed-serifed"
+    j = "serifed"
+    l = "tailed-serifed"
+    m = "serifless"
+    n = "straight-serifless"
+    p = "eared-serifless"
+    r = "serifless"
+    t = "bent-hook"
+    u = "toothless-rounded-serifless"
+    v = "straight-serifless"
+    w = "straight-flat-top-serifless"
+    x = "straight-serifless"
+    y = "straight-turn-serifless"
+    asterisk = "hex-low"
+    number-sign = "upright"
+
+    [buildPlans.IosevkaCustom.variants.italic]
+    one = "no-base"
+    four = "semi-open-serifless"
+    seven = "straight-serifless"
+    capital-i = "serifed"
+    capital-j = "serifed"
+    capital-m = "flat-bottom-serifless"
+    a = "single-storey-serifless"
+    b = "toothed-serifless"
+    d = "toothed-serifless"
+    e = "rounded"
+    f = "tailed"
+    g = "single-storey-serifless"
+    i = "tailed-serifed"
+    j = "serifed"
+    l = "tailed-serifed"
+    m = "serifless"
+    n = "straight-serifless"
+    p = "eared-serifless"
+    r = "serifless"
+    t = "bent-hook"
+    u = "toothless-rounded-serifless"
+    v = "straight-serifless"
+    w = "straight-flat-top-serifless"
+    x = "straight-serifless"
+    y = "cursive-serifless"
+    asterisk = "hex-low"
+    number-sign = "upright"
+
+    [buildPlans.IosevkaCustom.variants.oblique]
+    one = "no-base"
+    four = "semi-open-serifless"
+    seven = "straight-serifless"
+    capital-i = "serifed"
+    capital-j = "serifed"
+    capital-m = "flat-bottom-serifless"
+    a = "double-storey-serifless"
+    b = "toothed-serifless"
+    d = "toothed-serifless"
+    e = "flat-crossbar"
+    f = "serifless"
+    g = "single-storey-serifless"
+    i = "tailed-serifed"
+    j = "serifed"
+    l = "tailed-serifed"
+    m = "serifless"
+    n = "straight-serifless"
+    p = "eared-serifless"
+    r = "serifless"
+    t = "bent-hook"
+    u = "toothless-rounded-serifless"
+    v = "straight-serifless"
+    w = "straight-flat-top-serifless"
+    x = "straight-serifless"
+    y = "straight-turn-serifless"
+    asterisk = "hex-low"
+    number-sign = "upright"
+
+[buildPlans.IosevkaCustom.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaCustom.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaCustom.weights.Medium]
+shape = 500
+menu = 500
+css = 500
+
+[buildPlans.IosevkaCustom.weights.SemiBold]
+shape = 600
+menu = 600
+css = 600
